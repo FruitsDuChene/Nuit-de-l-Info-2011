@@ -40,7 +40,7 @@ Nous allons participer à plusieurs défis, vous pouvez en trouver la liste [ici
 
 * Forkez le projet et soumettez des pull requests :D
 * Suivez-nous sur [Facebook](https://www.facebook.com/groups/311429972214664/) ou [Twitter](http://twitter.com/#!/fruitsduchene).
-* Venez soumettre vos idées sur [irc://irc.unice.fr/#lesfruitsduchene]
+* Venez soumettre vos idées sur [irc.unice.fr/#polytech](irc://irc.unice.fr/#lesfruitsduchene)
 
 ## Le mot de la fin
 
