@@ -1,19 +1,104 @@
 <body>
 	<script>
+	//Public VAR
+	var pid = ""; //pipeline ID
+	var stopLoop = 0;
 	//Function that fetches form input elements + values and creates POST url
 	function submitFormAjax() {
+		stopLoop = 0;
+		var http = new XMLHttpRequest();
+		var postParams = "";
 		var inputElements = document.getElementsByTagName("input");
 		for (var i = 0; i < inputElements.length; i++) {   
    			var inputElementValue = inputElements[i].value;
 			var inputElementName =  inputElements[i].name; 
-    			alert(inputElementValue + inputElementName); 			
+			postParams += inputElementName + '=' + inputElementValue + '&';
+    						
 		}
+		var url = "/"; // Post arguments will be handled by the '/' handler
+		http.open("POST", url, true);	
+		
+		//Send the proper header information along with the request
+		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		http.setRequestHeader("Content-length", postParams.length);
+		http.setRequestHeader("Connection", "close");
+
+		http.onreadystatechange = function() {
+			if(http.readyState == 4 && http.status == 200) {
+				// Request has been sent to url: "/" with post method
+				// We retrieve the process id
+				pid = http.responseText;
+				//We lauch the budha image checker
+				budhaImageCheckerLoop();
+			}
+		}
+
+		http.send(postParams);
+		
+		//We hide the form + generation button
+		$("#budhaFormGenerator:visible").slideUp("slow");
+		$("#BudhaGenerationButton:visible").slideUp("slow");
+		$("#budhaResultButtonsDiv:hidden").toggle("slow");		
+	}
+	
+	// Loop that will lunch the image cheker every x seconds
+	function budhaImageCheckerLoop() {
+		var testFinish = budhaImageChecker();
+		if(stopLoop == 1)
+			return;
+		else
+			setTimeout(budhaImageCheckerLoop, 10000);
+	}
+	
+	/*
+	 * Function that checks if the reponse contains the image url
+	 * Adds dynamically the image in the appropriate div	
+	 */
+	function budhaImageChecker() {
+		var url = '/res?pid=' + pid;		
+		var http = new XMLHttpRequest();
+		http.onreadystatechange = function(){
+			if(http.readyState == 4){
+				var response = http.responseText;
+				if(response != ':(') { // The image isready !
+					$("#BudhaImage").hide();
+					document.getElementById('BudhaImage').innerHTML = '<img src=/img?pid='+ pid +'>';
+					$("#BudhaImage").show("slow");
+					stopLoop = 1;
+				}
+				else { // The image isn't ready
+					document.getElementById('BudhaImage').innerHTML = "Loading Image";
+					$("#BudhaImage:hidden").show("slow");
+				}
+			}
+		}
+		http.open("GET", url, true);
+		http.send(null); 
+	}	
+	
+	function displayStatus() {
+		var url = '_ah/pipeline/status?root=' + pid;		
+		window.open(url);	
+	}
+	
+
+
+	function stopBudhaGeneration() {
+		//Request to stop process
+		/*
+		 * TODO CODE
+		*/
+		
+		//Display graphical coponents
+		$("#budhaFormGenerator:hidden").slideDown("slow");
+		$("#BudhaGenerationButton:hidden").slideDown("slow");
+		$("#budhaResultButtonsDiv:visible").toggle("slow");		
 	}
 	</script>
 	<div class="fill">dd</div>
 	<div class="container">
 		<h3>Budha Generator</h3>
-		<form method="post" action="">
+		<form id="budhaFormGenerator" method="post" action="">
 		<fieldset>
 			<!-- Width -->
           		<div class="clearfix">
@@ -93,12 +178,27 @@
             			</div>
           		</div>
 			<!-- Input Button TODO: Ajax submission -->
-			<div class="actions">
-				<input class="btn primary" type="submit" value="Generate" />			
-			</div>
 		</fieldset>
 		</form>
-		<div><button class="fat btn" id="fat-btn" onclick="javascript:submitFormAjax();">Loading Test</button></div> 
+		<div class="actions">
+			<div id="budhaGenerationButtonsDiv">
+				<button class="btn primary" id="BudhaGenerationButton" onclick="javascript:submitFormAjax();">Loading Test</button>		
+			</div>
+			<div id="budhaResultButtonsDiv" style="display:none;">
+				<button class="btn danger" id="BudhaGenerationButton" onclick="javascript:stopBudhaGeneration();">Stop</button>
+				<button class="btn info" id="BudhaGenerationButton" onclick="javascript:displayStatus();">Status</button>		
+			</div>
+			
+		</div>
+		
+		<!--Budha Image-->
+		<div id="BudhaImage" style="display:none;">
+		</div>
+		
+		<!--Status-->
+		<div id="status" style="display:none;">
+		</div>
+		
 	</div><!-- /container -->
   </body>
 </html>

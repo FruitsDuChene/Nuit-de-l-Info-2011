@@ -9,15 +9,17 @@ handlers:
   script: pipeline/handlers.py
 
 - url: /stylesheet
-  static_dir: CSS
+  static_dir: css
+
+- url: /jsFolder
+  static_dir: js
 
 - url: /.*
   script: buddha.py
   login: required
 
-libraries:
-- name: jinja2
-  version: latest
-- name: markupsafe
-  version: latest
-
+libraries:                                                                      
+- name: jinja2                                                                  
+  version: latest                                                               
+- name: markupsafe                                                              
+  version: latest   

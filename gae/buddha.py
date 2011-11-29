@@ -86,10 +86,11 @@ class IndexHandler(webapp.RequestHandler):
         bp = BuddhaPipeline(config)
         bp.start()
 
-        self.response.out.write('''
-            <a href="/res?pid=%s">result</a>''' % bp.pipeline_id)
-        self.response.out.write('''
-            <a href="/_ah/pipeline/status?root=%s">status</a>''' % bp.pipeline_id)
+       # self.response.out.write('''
+       #     <a href="/res?pid=%s">result</a>''' % bp.pipeline_id)
+       # self.response.out.write('''
+       #     <a href="/_ah/pipeline/status?root=%s">status</a>''' % bp.pipeline_id)
+	self.response.out.write(bp.pipeline_id)	
 
 
 # L'ideal serait de normaliser le nom de l'image generée
