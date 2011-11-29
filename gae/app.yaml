@@ -15,8 +15,9 @@ handlers:
   script: buddha.py
   login: required
 
-libraries:                                                                      
-- name: jinja2                                                                  
-  version: latest                                                               
-- name: markupsafe                                                              
-  version: latest           
+libraries:
+- name: jinja2
+  version: latest
+- name: markupsafe
+  version: latest
+
