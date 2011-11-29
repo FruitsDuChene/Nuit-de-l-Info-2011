@@ -1,0 +1,104 @@
+<body>
+	<script>
+	//Function that fetches form input elements + values and creates POST url
+	function submitFormAjax() {
+		var inputElements = document.getElementsByTagName("input");
+		for (var i = 0; i < inputElements.length; i++) {   
+   			var inputElementValue = inputElements[i].value;
+			var inputElementName =  inputElements[i].name; 
+    			alert(inputElementValue + inputElementName); 			
+		}
+	}
+	</script>
+	<div class="fill">dd</div>
+	<div class="container">
+		<h3>Budha Generator</h3>
+		<form method="post" action="">
+		<fieldset>
+			<!-- Width -->
+          		<div class="clearfix">
+            			<label for="width">Width</label>
+            			<div class="input">
+              				<input class="width" id="width" name="width" size="30" type="text" value="{{ width }}" />
+            			</div>
+          		</div>
+			<!-- Height -->
+			<div class="clearfix">
+            			<label for="height">Height</label>
+            			<div class="input">
+              				<input class="height" id="height" name="height" size="30" type="text" value="{{ height }}" />
+            			</div>
+          		</div>
+			<!-- Red -->
+			<div class="clearfix">
+            			<label for="red">Red</label>
+            			<div class="input">
+              				<input class="red" id="red" name="red" size="30" type="text" value="{{ red }}" />
+            			</div>
+          		</div>
+			<!-- Green -->
+			<div class="clearfix">
+            			<label for="green">Green</label>
+            			<div class="input">
+              				<input class="green" id="green" name="green" size="30" type="text" value="{{ green }}" />
+            			</div>
+          		</div>
+			<!-- Blue -->
+			<div class="clearfix">
+            			<label for="blue">Blue</label>
+            			<div class="input">
+              				<input class="blue" id="blue" name="blue" size="30" type="text" value="{{ blue }}" />
+            			</div>
+          		</div>
+			<!-- Xmin -->
+			<div class="clearfix">
+            			<label for="xmin">X-min</label>
+            			<div class="input">
+              				<input class="xmin" id="xmin" name="xmin" size="30" type="text" value="{{ xmin }}" />
+            			</div>
+          		</div>
+			<!-- Xmax -->
+			<div class="clearfix">
+            			<label for="xmax">X-max</label>
+            			<div class="input">
+              				<input class="xmax" id="xmax" name="xmax" size="30" type="text" value="{{ xmax }}" />
+            			</div>
+          		</div>
+			<!-- Ymin -->
+			<div class="clearfix">
+            			<label for="ymin">Y-min</label>
+            			<div class="input">
+              				<input class="ymin" id="ymin" name="ymin" size="30" type="text" value="{{ ymin }}" />
+            			</div>
+          		</div>
+			<!-- Ymax -->
+			<div class="clearfix">
+            			<label for="ymax">Y-max</label>
+            			<div class="input">
+              				<input class="ymax" id="ymax" name="ymax" size="30" type="text" value="{{ ymax }}" />
+            			</div>
+          		</div>
+			<!-- pointspermapper -->
+			<div class="clearfix">
+            			<label for="pointspermapper">Points per mapper</label>
+            			<div class="input">
+              				<input class="pointspermapper" id="pointspermapper" name="pointspermapper" size="30" type="text" value="{{ pointspermapper }}" />
+            			</div>
+          		</div>
+			<!-- numberofmappers -->
+			<div class="clearfix">
+            			<label for="numberofmappers">Number of mappers</label>
+            			<div class="input">
+              				<input class="numberofmappers" id="numberofmappers" name="numberofmappers" size="30" type="text" value="{{ numberofmappers }}" />
+            			</div>
+          		</div>
+			<!-- Input Button TODO: Ajax submission -->
+			<div class="actions">
+				<input class="btn primary" type="submit" value="Generate" />			
+			</div>
+		</fieldset>
+		</form>
+		<div><button class="fat btn" id="fat-btn" onclick="javascript:submitFormAjax();">Loading Test</button></div> 
+	</div><!-- /container -->
+  </body>
+</html>
