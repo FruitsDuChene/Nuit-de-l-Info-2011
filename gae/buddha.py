@@ -8,23 +8,27 @@
 # - img handler check finalized
 # - var pour les defaults values
 # - créer le bmp une fois pour toute et non pas à chaque fois qu'on demande /img
+# - utiliser des namedtuples plutôt que des dicos...
+# - doc
 
-import jinja2
-import os
+from collections import Counter
 
 import logging
+import os
 import random
 
-import bmp
-import pipeline
+import jinja2
 
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 
+import bmp
+import pipeline
+
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-# ça c'est juste pour éviter d'être loggué
+# ça c'est juste pour éviter d'avoir à être loggué
 pipeline.set_enforce_auth(False)
 
 jinja_environment = jinja2.Environment(
@@ -33,33 +37,33 @@ jinja_environment = jinja2.Environment(
 class IndexHandler(webapp.RequestHandler):
     # GET
     def get(self):
-	# Default values for budha	
-	config = {
-		'width' : 		64,
-		'height' : 		64,
-		'red': 			5,
-		'green' : 		50,
-		'blue' : 		500,
-		'xmin' : 		-2,
-		'xmax' : 		1,
-		'ymin' : 		-1.5,
-		'ymax' : 		1.5,
-		'pointspermapper' : 	256,
-		'numberofmappers' : 	4,
-	}
-	# Get template with set values
-	head_template = jinja_environment.get_template('head.html')
+        # Default values for budha
+        config = {
+            'width': 256,
+            'height': 256,
+            'red': 5,
+            'green': 50,
+            'blue': 500,
+            'xmin': -2,
+            'xmax': 1,
+            'ymin': -1.5,
+            'ymax': 1.5,
+            'pointspermapper': 4096,
+            'numberofmappers': 4, ###
+        }
+        # Get template with set values
+        head_template = jinja_environment.get_template('head.html')
         budha_form_template = jinja_environment.get_template('BudhaGenerator.html')
-	
-	# Write responses
+
+        # Write responses
         self.response.out.write(head_template.render(title = "Buddhabrot Generator"))
-	self.response.out.write(budha_form_template.render(config))
-    
+        self.response.out.write(budha_form_template.render(config))
+
     # POST
     def post(self):
-	# Store posted data  
-	config = {}      
-	config['width'] = int(self.request.get('width'))
+        # Store posted data
+        config = {}
+        config['width'] = int(self.request.get('width'))
         config['height'] = int(self.request.get('height'))
 
         config['red'] = int(self.request.get('red'))
@@ -84,7 +88,7 @@ class IndexHandler(webapp.RequestHandler):
             <a href="/_ah/pipeline/status?root=%s">status</a>''' % bp.pipeline_id)
 
 
-# L'ideal serait de normaliser le nom de l'image generée 
+# L'ideal serait de normaliser le nom de l'image generée
 # utilisateur logué genere une image nomé : login_budha.bmp
 # Script ajax cherchera l'image toute les x secondes et demande a l'utilisateur de bien vouloir attendre
 class ResultHandler(webapp.RequestHandler):
@@ -99,68 +103,44 @@ class ResultHandler(webapp.RequestHandler):
         else:
             self.response.out.write(''':(''')
 
+
+def minmax(c):
+    mc = c.most_common()
+    return mc[0][1], mc[-1][1]
+
 class ImgHandler(webapp.RequestHandler):
     def get(self):
-        # génère l'image qui correspond au buddha
-        # probablement pas très efficace
         pid = self.request.get('pid')
         bp = BuddhaPipeline.from_id(pid)
+        config, r, g, b = bp.outputs.default.value
 
-        rgrid, ggrid, bgrid = bp.outputs.default.value
-        width = len(rgrid[0])
-        height = len(rgrid)
+        w, h = config['width'], config['height']
 
-        # ugly
-        ra = min(min(g) for g in rgrid)
-        rb = max(max(g) for g in rgrid)
+        r = Counter(tuple(x) for x in r if x)
+        g = Counter(tuple(x) for x in g if x)
+        b = Counter(tuple(x) for x in b if x)
 
-        ga = min(min(g) for g in ggrid)
-        gb = max(max(g) for g in ggrid)
+        ra, rb = minmax(r)
+        ga, gb = minmax(g)
+        ba, bb = minmax(b)
 
-        ba = min(min(g) for g in bgrid)
-        bb = max(max(g) for g in bgrid)
+        self.response.headers['Content-Type'] = 'image/bmp'
+        img = bmp.BitMap(w, h)
 
-        self.response.headers["Content-Type"] = "image/bmp"
-        img = bmp.BitMap(width, height)
-
-        # enumerate
-        for y in range(len(rgrid)):
-            for x in range(len(rgrid[y])):
-                r = int(round(255.0 * (rgrid[x][y] - ra) / (rb - ra)))
-                g = int(round(255.0 * (ggrid[x][y] - ga) / (gb - ga)))
-                b = int(round(255.0 * (bgrid[x][y] - ba) / (bb - ba)))
-                img.setPenColor(bmp.Color(r, g, b))
+        for y in range(h):
+            for x in range(w):
+                rc = int(round(255.0 * (r[(x, y)] - ra) / (rb - ra)))
+                gc = int(round(255.0 * (g[(x, y)] - ga) / (gb - ga)))
+                bc = int(round(255.0 * (b[(x, y)] - ba) / (bb - ba)))
+                img.setPenColor(bmp.Color(rc, gc, bc))
                 img.plotPoint(x, y)
 
         self.response.out.write(img.getBitmap())
 
-class BuddhaReducer(pipeline.Pipeline):
-    def run(self, config, *grids):
-        """additionne toutes le nombre d'occurence de chaque point
-        pour chaque couleur"""
-        width = config['width']
-        height = config['height']
-
-        rgrid = [[0] * width for _ in range(height)]
-        ggrid = [[0] * width for _ in range(height)]
-        bgrid = [[0] * width for _ in range(height)]
-
-        for i in range(height):
-            for j in range(width):
-                # ugly
-                rgrid[i][j] = sum(g[0][i][j] for g in grids)
-                ggrid[i][j] = sum(g[1][i][j] for g in grids)
-                bgrid[i][j] = sum(g[2][i][j] for g in grids)
-
-        return (rgrid, ggrid, bgrid)
 
 class Cpx2Px:
-    # nombre imagaire -> pixel
     def __init__(self, xmin, xmax, ymin, ymax, width, height):
-        # self.xxx useles (pas sûr en fait)
         self.xmin = xmin
-        self.xmax = xmax
-        self.ymin = ymin
         self.ymax = ymax
 
         self.width = width
@@ -178,78 +158,44 @@ class Cpx2Px:
 
         return x, y
 
-class BuddhaMapper(pipeline.Pipeline):
-    def run(self, config):
-        width = config['width']
-        height = config['height']
+class PointGenerator(pipeline.Pipeline):
+    def run(self, maxiter, config):
+        points = []
+        xmin, xmax = config['xmin'], config['xmax']
+        ymin, ymax = config['ymin'], config['ymax']
+        cpx2px = Cpx2Px(xmin, xmax, ymin, ymax, config['width'], config['height'])
 
-        red = config['red']
-        green = config['green']
-        blue = config['blue']
+        for _ in range(config['pointspermapper']):
+            path = []
+            in_set = False
+            c = random.uniform(xmin, xmax) + 1j * random.uniform(xmin, xmax)
+            z = c
 
-        xmin = config['xmin']
-        xmax = config['xmax']
-        ymin = config['ymin']
-        ymax = config['ymax']
-
-        pointspermapper = config['pointspermapper']
-
-        maxiter = max(red, green, blue)
-
-        rgrid = [[0] * width for _ in range(height)]
-        ggrid = [[0] * width for _ in range(height)]
-        bgrid = [[0] * width for _ in range(height)]
-
-        cpx2px = Cpx2Px(xmin, xmax, ymin, ymax, width, height)
-
-        logging.info(cpx2px(0j))
-
-        for _ in range(pointspermapper):
-            c = random.uniform(xmin, xmax) + random.uniform(ymin, ymax) * 1j
-            z = c ** 2
-            i, points = 0, [c]
-
-            # TODO prendre le carré  < 4 => ++perf
-            while i < maxiter and abs(z) < 2:
+            for _ in range(maxiter):
                 z = z ** 2 + c
-                i += 1
-                points.append(z)
+                path.append(z)
 
-            #points.append(z)
+                if (z.real ** 2 + z.imag ** 2) > 4:
+                    in_set = True
+                    break
 
-            if i < red:
-                for p in points:
-                    a = cpx2px(p)
+            if in_set:
+                points.extend(cpx2px(z) for z in path)
 
-                    if a is not None:
-                        x, y = a
-                        #logging.info('x: %d, y: %d' % (x, y))
-                        rgrid[x][y] += 1
+        return points
 
-            if i < green:
-                for p in points:
-                    a = cpx2px(p)
 
-                    if a is not None:
-                        x, y = a
-                        #logging.info('x: %d, y: %d' % (x, y))
-                        ggrid[x][y] += 1
+class Result(pipeline.Pipeline):
+    def run(self, *l):
+        return l
 
-            if i < blue:
-                for p in points:
-                    a = cpx2px(p)
-
-                    if a is not None:
-                        x, y = a
-                        bgrid[x][y] += 1
-
-        return (rgrid, ggrid, bgrid) # check list
 
 class BuddhaPipeline(pipeline.Pipeline):
     def run(self, config):
-        numberofmappers = config['numberofmappers']
-        mappers = [(yield BuddhaMapper(config)) for _ in range(numberofmappers)]
-        yield BuddhaReducer(config, *mappers)
+        red = yield PointGenerator(config['red'], config)
+        green = yield PointGenerator(config['green'], config)
+        blue = yield PointGenerator(config['blue'], config)
+        yield Result(config, red, green, blue)
 
 
 app = webapp.WSGIApplication([
