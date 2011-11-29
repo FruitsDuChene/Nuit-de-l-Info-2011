@@ -123,6 +123,7 @@ class Cpx2Px:
         self.height = height
         self.xratio = width / (xmax - xmin)
         self.yratio = height / (ymax - ymin)
+
     def __call__(self, p):
         x = int(round((p.real - self.xmin) * self.xratio))
         y = int(round((self.ymax - p.imag) * self.yratio))
@@ -140,7 +141,7 @@ class PointGenerator(pipeline.Pipeline):
         for _ in range(config['pointspermapper']):
             path = []
             in_set = False
-            c = random.uniform(xmin, xmax) + 1j * random.uniform(xmin, xmax)
+            c = random.uniform(xmin, xmax) + 1j * random.uniform(ymin, ymax)
             z = c
 
             for _ in range(maxiter):
@@ -148,11 +149,13 @@ class PointGenerator(pipeline.Pipeline):
                 path.append(z)
 
                 if (z.real ** 2 + z.imag ** 2) > 4:
+                    #path.append(z)
                     in_set = True
                     break
 
             if in_set:
                 points.extend(cpx2px(z) for z in path)
+                #points.append(cpx2px(c))
 
         return points
 
@@ -179,14 +182,17 @@ class Result(pipeline.Pipeline):
         ra, rb = minmax(r)
         ga, gb = minmax(g)
         ba, bb = minmax(b)
+        logging.info((ra, rb))
+        logging.info((ga, gb))
+        logging.info((ba, bb))
 
         img = bmp.BitMap(w, h)
 
         for y in range(h):
             for x in range(w):
-                rc = int(round(255.0 * (r[(x, y)] - ra) / (rb - ra)))
-                gc = int(round(255.0 * (g[(x, y)] - ga) / (gb - ga)))
-                bc = int(round(255.0 * (b[(x, y)] - ba) / (bb - ba)))
+                rc = round((255. * r[(x, y)]) / rb)
+                gc = round((255. * g[(x, y)]) / gb)
+                bc = round((255. * b[(x, y)]) / bb)
                 img.setPenColor(bmp.Color(rc, gc, bc))
                 img.plotPoint(x, y)
 
