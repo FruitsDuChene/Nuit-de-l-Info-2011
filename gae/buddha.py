@@ -19,7 +19,11 @@ import random
 
 import jinja2
 
+from google.appengine.api import files
+from google.appengine.ext import blobstore
+from google.appengine.ext import db
 from google.appengine.ext import webapp
+from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 import bmp
@@ -41,9 +45,9 @@ class IndexHandler(webapp.RequestHandler):
         config = {
             'width': 256,
             'height': 256,
-            'red': 5,
-            'green': 50,
-            'blue': 500,
+            'red': 10,
+            'green': 100,
+            'blue': 1000,
             'xmin': -2,
             'xmax': 1,
             'ymin': -1.5,
@@ -104,58 +108,26 @@ class ResultHandler(webapp.RequestHandler):
             self.response.out.write(''':(''')
 
 
-def minmax(c):
-    mc = c.most_common()
-    return mc[0][1], mc[-1][1]
-
-class ImgHandler(webapp.RequestHandler):
+class ImgHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self):
         pid = self.request.get('pid')
-        bp = BuddhaPipeline.from_id(pid)
-        config, r, g, b = bp.outputs.default.value
-
-        w, h = config['width'], config['height']
-
-        r = Counter(tuple(x) for x in r if x)
-        g = Counter(tuple(x) for x in g if x)
-        b = Counter(tuple(x) for x in b if x)
-
-        ra, rb = minmax(r)
-        ga, gb = minmax(g)
-        ba, bb = minmax(b)
-
-        self.response.headers['Content-Type'] = 'image/bmp'
-        img = bmp.BitMap(w, h)
-
-        for y in range(h):
-            for x in range(w):
-                rc = int(round(255.0 * (r[(x, y)] - ra) / (rb - ra)))
-                gc = int(round(255.0 * (g[(x, y)] - ga) / (gb - ga)))
-                bc = int(round(255.0 * (b[(x, y)] - ba) / (bb - ba)))
-                img.setPenColor(bmp.Color(rc, gc, bc))
-                img.plotPoint(x, y)
-
-        self.response.out.write(img.getBitmap())
+        imr = ImgResult.gql('WHERE pid=:1', pid).fetch(1)[0]
+        self.send_blob(imr.blob_key)
 
 
 class Cpx2Px:
     def __init__(self, xmin, xmax, ymin, ymax, width, height):
         self.xmin = xmin
         self.ymax = ymax
-
         self.width = width
         self.height = height
-
         self.xratio = width / (xmax - xmin)
         self.yratio = height / (ymax - ymin)
-
     def __call__(self, p):
         x = int(round((p.real - self.xmin) * self.xratio))
         y = int(round((self.ymax - p.imag) * self.yratio))
-
         if x < 0 or x >= self.width or y < 0 or y >= self.height:
             return None
-
         return x, y
 
 class PointGenerator(pipeline.Pipeline):
@@ -185,17 +157,59 @@ class PointGenerator(pipeline.Pipeline):
         return points
 
 
+def minmax(c):
+    mc = c.most_common()
+    return mc[0][1], mc[-1][1]
+
+
+class ImgResult(db.Model):
+    pid = db.StringProperty()
+    blob_key = blobstore.BlobReferenceProperty()
+
 class Result(pipeline.Pipeline):
-    def run(self, *l):
-        return l
+    def run(self, pid, config, *l):
+        r, g, b = l
+
+        w, h = config['width'], config['height']
+
+        r = Counter(tuple(x) for x in r if x)
+        g = Counter(tuple(x) for x in g if x)
+        b = Counter(tuple(x) for x in b if x)
+
+        ra, rb = minmax(r)
+        ga, gb = minmax(g)
+        ba, bb = minmax(b)
+
+        img = bmp.BitMap(w, h)
+
+        for y in range(h):
+            for x in range(w):
+                rc = int(round(255.0 * (r[(x, y)] - ra) / (rb - ra)))
+                gc = int(round(255.0 * (g[(x, y)] - ga) / (gb - ga)))
+                bc = int(round(255.0 * (b[(x, y)] - ba) / (bb - ba)))
+                img.setPenColor(bmp.Color(rc, gc, bc))
+                img.plotPoint(x, y)
+
+        filename = files.blobstore.create(mime_type='image/bmp')
+
+        with files.open(filename, 'a') as f:
+            f.write(img.getBitmap())
+
+        files.finalize(filename)
+        imr = ImgResult()
+        imr.pid = pid
+        imr.blob_key = files.blobstore.get_blob_key(filename)
+        imr.put()
 
 
 class BuddhaPipeline(pipeline.Pipeline):
+    blob_key = None
+
     def run(self, config):
         red = yield PointGenerator(config['red'], config)
         green = yield PointGenerator(config['green'], config)
         blue = yield PointGenerator(config['blue'], config)
-        yield Result(config, red, green, blue)
+        yield Result(self.pipeline_id, config, red, green, blue)
 
 
 app = webapp.WSGIApplication([
