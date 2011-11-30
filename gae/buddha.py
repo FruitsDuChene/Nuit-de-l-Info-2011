@@ -90,7 +90,7 @@ class IndexHandler(webapp.RequestHandler):
        #     <a href="/res?pid=%s">result</a>''' % bp.pipeline_id)
        # self.response.out.write('''
        #     <a href="/_ah/pipeline/status?root=%s">status</a>''' % bp.pipeline_id)
-	self.response.out.write(bp.pipeline_id)	
+        self.response.out.write(bp.pipeline_id)
 
 
 # L'ideal serait de normaliser le nom de l'image generée
@@ -134,10 +134,11 @@ class Cpx2Px:
 
 class PointGenerator(pipeline.Pipeline):
     def run(self, maxiter, config):
-        points = []
+        width, height = config['width'], config['height']
+        points = [[0] * width for _ in range(height)]
         xmin, xmax = config['xmin'], config['xmax']
         ymin, ymax = config['ymin'], config['ymax']
-        cpx2px = Cpx2Px(xmin, xmax, ymin, ymax, config['width'], config['height'])
+        cpx2px = Cpx2Px(xmin, xmax, ymin, ymax, width, height)
 
         for _ in range(config['pointspermapper']):
             path = []
@@ -155,15 +156,16 @@ class PointGenerator(pipeline.Pipeline):
                     break
 
             if in_set:
-                points.extend(cpx2px(z) for z in path)
-                #points.append(cpx2px(c))
+                for z in path:
+                    xy = cpx2px(z)
+                    if xy:
+                        points[xy[1]][xy[0]] += 1
 
         return points
 
 
-def minmax(c):
-    mc = c.most_common()
-    return mc[0][1], mc[-1][1]
+def minmax(a):
+    return min(min(row for row in a)), max(max(row for row in a))
 
 
 class ImgResult(db.Model):
@@ -176,10 +178,6 @@ class Result(pipeline.Pipeline):
 
         w, h = config['width'], config['height']
 
-        r = Counter(tuple(x) for x in r if x)
-        g = Counter(tuple(x) for x in g if x)
-        b = Counter(tuple(x) for x in b if x)
-
         ra, rb = minmax(r)
         ga, gb = minmax(g)
         ba, bb = minmax(b)
@@ -191,9 +189,9 @@ class Result(pipeline.Pipeline):
 
         for y in range(h):
             for x in range(w):
-                rc = round((255. * r[(x, y)]) / rb)
-                gc = round((255. * g[(x, y)]) / gb)
-                bc = round((255. * b[(x, y)]) / bb)
+                rc = round((255. * r[y][x]) / rb)
+                gc = round((255. * g[y][x]) / gb)
+                bc = round((255. * b[y][x]) / bb)
                 img.setPenColor(bmp.Color(rc, gc, bc))
                 img.plotPoint(x, y)
 
@@ -210,8 +208,6 @@ class Result(pipeline.Pipeline):
 
 
 class BuddhaPipeline(pipeline.Pipeline):
-    blob_key = None
-
     def run(self, config):
         red = yield PointGenerator(config['red'], config)
         green = yield PointGenerator(config['green'], config)
