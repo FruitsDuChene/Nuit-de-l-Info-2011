@@ -6,6 +6,10 @@ class Dashboard
 	public function index() {
 		$url = isset($_REQUEST['url']) ? $_REQUEST['url'] : null;
 		CaptureView::showForm($url);
+
+		/*$book = R::dispense( 'book' );
+		$book->coucou = "Salut";
+		R::store($book);*/
 	}
 
 	public function submit() {

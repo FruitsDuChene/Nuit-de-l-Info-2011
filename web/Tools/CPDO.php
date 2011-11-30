@@ -10,7 +10,7 @@ class CPDO
 		if (!array_key_exists($request,self::$requests))
 		{
 			if (self::$connection === null) {
-				self::$connection = new PDO(DSN_PDO_MYSQL, MYSQL_USER, MYSQL_PASSWORD);
+				self::$connection = new PDO(DB_DSN_PDO, DB_USER, DB_PASSWORD);
 			}
 
 			$t_request = self::$connection->prepare($request);

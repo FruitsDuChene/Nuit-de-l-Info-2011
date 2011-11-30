@@ -8,6 +8,9 @@ require_once('config.php');
 require_once('Tools/autoload.php');
 require_once('Tools/debug.php');
 
+// DB connection
+R::setup(DB_DSN_PDO, DB_USER, DB_PASSWORD);
+
 $ROOT_PATH = dirname($_SERVER['SCRIPT_NAME']);
 
 if (URL_REWRITING) {
