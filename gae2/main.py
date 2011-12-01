@@ -6,10 +6,18 @@ import os
 import jinja2
 
 from google.appengine.ext import webapp
+from google.appengine.ext import db
 from google.appengine.ext.webapp.util import run_wsgi_app
 
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+
+class TrainData(db.Model):
+    price = db.IntegerProperty()
+    tech = db.IntegerProperty()
+    culture = db.IntegerProperty()
+    sports = db.IntegerProperty()
+    clothing = db.IntegerProperty()
 
 class IndexHandler(webapp.RequestHandler):
     def get(self):
