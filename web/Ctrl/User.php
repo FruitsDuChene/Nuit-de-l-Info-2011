@@ -16,6 +16,7 @@ class User
 
 		groaw($id);
 	}
+
 }
 
 ?>
