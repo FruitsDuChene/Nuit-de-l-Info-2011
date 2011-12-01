@@ -23,3 +23,13 @@ html, body {
     padding: 20px;
 }
 
+.rater {
+    float: left;
+    margin: 10px;
+    width: 200px;
+}
+
+.rater + input {
+    width: 15px;
+}
+
