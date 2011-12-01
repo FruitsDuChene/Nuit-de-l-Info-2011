@@ -1,63 +1,111 @@
 {% extends "tpl/main.html" %}
 
 {% block title %}
-Olol
+Entrainer le système.
 {% endblock%}
 
-{% block body %}
-Blah blah
-<form action="/train" method="post">
-    <label for="gift">Nom du cadeau, (séparer plusieurs cadeau par une virgule)</label>
-    <input type="text" name="gift" id="gift" value=""><br>
+{% block pagetitle %}
+Entrainement
+{% endblock %}
 
-    <label for="price">Prix</label>
-    <input type="text" name="price" id="price"><br>
+{% block content %}
+{% if error %}
+<div class="alert-message error fade in" data-alert="alert">
+    <a class="close" href="#">&times;</a>
+    <p><strong>Erreur!</strong> Il semblerait que vous ayez fait une erreur en remplissant le formulaire.
+</div>
+{% endif %}
 
-    <label for="tech">Technologie (ordinateur, téléphone)</label>
-    <select name="tech" id="tech">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
+<p>Pour nous aider, c'est très simple, ajouter les cadeaux que vous aimeriez recevoir, et dites à quelle catégorie il appartient.
+<p>Par exemple un "lecteur MP3", peut être classé dans technologie 4, et culture 4.
+<form action="/train" method="post" class="form-stacked">
+    <fieldset>
+        <div class="clearfix">
+            <label for="gift">Nom du cadeau</label>
+            <div class="input">
+                <input type="text" name="gift" id="gift" value="">
+            </div>
+        </div>
 
-    <label for="culture">Culture (dvd, livres)</label>
-    <select name="culture" id="culture">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
+        <div class="clearfix">
+            <label for="price">Prix</label>
+            <div class="input">
+                <div class="input-append">
+                    <input type="text" name="price" id="price">
+                    <span class="add-on">€</span>
+                </div>
+            </div>
+        </div>
 
-    <label for="games">Jeux (de société, vidéo...)</label>
-    <select name="games" id="games">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
 
-    <label for="sports">Sports</label>
-    <select name="sports" id="sports">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
+        <div class="clearfix">
+            <label for="tech">Technologie (ordinateur, téléphone...)</label>
+            <div class="input">
+                <select name="tech" id="tech">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
 
-    <label for="clothing">Mode (vêtements, bijoux...)</label>
-    <select name="clothing" id="clothing">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
+        <div class="clearfix">
+            <label for="culture">Culture (dvd, livres, musique)</label>
+            <div class="input">
+                <select name="culture" id="culture">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
 
-    <input type="submit">
+        <div class="clearfix">
+            <label for="games">Jeux (de société, vidéo...)</label>
+            <div class="input">
+                <select name="games" id="games">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <label for="sports">Sports</label>
+            <div class="input">
+                <select name="sports" id="sports">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="clearfix">
+            <label for="clothing">Mode (vêtements, bijoux...)</label>
+            <div class="input">
+                <select name="clothing" id="clothing">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions">
+        <input type="submit" class="btn primary" value="Envoyer">
+        <input type="reset" class="btn" value="Remettre à zéro">
+    </div>
 </form>
 {% endblock %}
