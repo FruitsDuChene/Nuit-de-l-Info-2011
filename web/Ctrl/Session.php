@@ -10,9 +10,18 @@ class Session
 	}
 
 	public function login() {
-		CHead::addJs('sha1');
-		CHead::delCSS('bootstrap.min');
-		new SessionView();
+
+		if (CNavigation::isValidSubmit(array('email_facebook', 'password_facebook') , $_REQUEST))
+		{
+			$_SESSION['logged'] = true;
+			CNavigation::redirectToApp();
+		}
+		else
+		{
+			CHead::addJs('sha1');
+			CHead::delCSS('bootstrap.min');
+			new SessionView();
+		}
 	}
 
 	public function logout() {
@@ -20,7 +29,7 @@ class Session
 
 		new CMessage(_('Successful logout'));
 
-		CNavigation::redirectToApp();
+		CNavigation::redirectToApp('Session','login');
 	}
 }
 
