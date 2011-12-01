@@ -207,23 +207,14 @@ class CNavigation
 
 	public static function redirectToURL($url)
 	{
-		$imap_errors = imap_errors();
-
-		if ($imap_errors)
-		{
-			groaw($imap_errors);
-		}
-		else
-		{
-			// Ignore the already printed content
-			ob_end_clean();
-			
-			// HTTP redirection
-			header("Location:\t".$url);
-			
-			// With a link for be nice
-			echo 'Move to: <a href="',htmlspecialchars($url),'">,', htmlspecialchars($url),'</a>.';
-		}
+		// Ignore the already printed content
+		ob_end_clean();
+		
+		// HTTP redirection
+		header("Location:\t".$url);
+		
+		// With a link for be nice
+		echo 'Move to: <a href="',htmlspecialchars($url),'">,', htmlspecialchars($url),'</a>.';
 
 		// A redirection is terminal
 		exit();
