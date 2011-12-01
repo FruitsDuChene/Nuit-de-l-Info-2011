@@ -9,5 +9,8 @@ GiftIdeas - Trouver des idées de cadeaux pour vos amis!
 {% endblock%}
 
 {% block content %}
-Hello world!
+<p>Pour trouver une idée de cadeau pour un ami, c'est très simple, entrez le prix que vous souhaitez y mettre, et ensuite noter les centres d'intérêt de votre ami en utilisant les sliders.
+<form action="/" method="post" class="form-stacked">
+    {% include "tpl/form.html" %}
+</form>
 {% endblock %}
