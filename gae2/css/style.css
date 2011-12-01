@@ -33,3 +33,7 @@ html, body {
     width: 15px;
 }
 
+#result {
+    display: none;
+}
+
