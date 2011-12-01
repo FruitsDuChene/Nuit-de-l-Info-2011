@@ -21,7 +21,7 @@ date_default_timezone_set(TIME_ZONE);
 
 session_start();
 
-$CTRL_NAME = isset($_REQUEST['CTRL']) ? $_REQUEST['CTRL'] : 'Session';
+$CTRL_NAME = isset($_REQUEST['CTRL']) ? ($_REQUEST['CTRL'] != '' ? $_REQUEST['CTRL'] : 'Dashboard') : 'Dashboard';
 $ACTION_NAME = isset($_REQUEST['EX']) ? $_REQUEST['EX'] : 'index';
 
 // It's better to remove path special characters
@@ -29,12 +29,14 @@ $ctrl_filename = 'Ctrl/'.strtr($CTRL_NAME, '/\\.', '   ').'.php';
 if (file_exists($ctrl_filename)) {
 	require_once($ctrl_filename);
 } else {
-	$CTRL_NAME = 'Dashboard';
+	$CTRL_NAME = 'Error';
 }
 
 $CTRL = new $CTRL_NAME();
 if (!method_exists($CTRL, $ACTION_NAME)) {
-	$ACTION_NAME = 'index';
+	$CTRL = new Error();
+	$CTRL_NAME = 'Error';
+	$ACTION_NAME = 'page_not_found';
 }
 
 $CTRL->{$ACTION_NAME}();
