@@ -58,9 +58,8 @@ class TrainHandler(webapp.RequestHandler):
             g.clothing = clothing
             g.put()
 
-        except ValueError:
-            self.redirect('/train?error=true')
-            return
+        except ValueError as e:
+            return self.redirect('/train?error=true')
 
         self.redirect('/thanks')
 
