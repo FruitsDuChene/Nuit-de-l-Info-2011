@@ -4,8 +4,8 @@ class Dashboard
 {
 
 	public function refresh() {
-		$c = new Error();
-		$c->page_not_found();
+		$c = new User();
+		$c->index();
 		//groaw(R::find('user_gift'));
 	}
 
