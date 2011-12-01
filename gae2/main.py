@@ -16,13 +16,16 @@ class TrainData(db.Model):
     price = db.IntegerProperty()
     tech = db.IntegerProperty()
     culture = db.IntegerProperty()
+    games = db.IntegerProperty()
     sports = db.IntegerProperty()
     clothing = db.IntegerProperty()
+
 
 class IndexHandler(webapp.RequestHandler):
     def get(self):
         self.response.out.write(
                 jinja_environment.get_template('tpl/index.html').render())
+
 
 class TrainHandler(webapp.RequestHandler):
     def get(self):
@@ -33,10 +36,12 @@ class TrainHandler(webapp.RequestHandler):
         # data
         self.redirect('/thanks')
 
+
 class ThanksHandler(webapp.RequestHandler):
     def get(self):
         self.response.out.write(
                 jinja_environment.get_template('tpl/thanks.html').render())
+
 
 app = webapp.WSGIApplication([
                                 ('/', IndexHandler),
