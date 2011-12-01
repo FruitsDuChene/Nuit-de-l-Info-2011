@@ -18,7 +18,7 @@ class CMessage
 
 	public function show()
 	{
-		echo "\t<li>$this->message</li>\n";
+		echo "\t<div class=\"alert-message success\">$this->message</div>\n";
 	}
 
 	public static function showMessages()
@@ -29,14 +29,14 @@ class CMessage
 
 			if (count($t) > 0)
 			{
-				echo "<ul class=\"CMessage\">\n";
+				echo "<div class=\"CMessage\">\n";
 				
 				do
 				{
 					array_pop($t)->show();
 				} while (count($t) > 0);
 
-				echo "</ul>\n";
+				echo "</div>\n";
 			}
 		}
 	}

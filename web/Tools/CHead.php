@@ -14,5 +14,10 @@ class CHead
 	{
 		self::$js[] = $n_js;
 	}
+
+	public static function delCSS($n_css)
+	{
+		unset(self::$css[array_search($n_css, self::$css)]);
+	}
 }
 ?>

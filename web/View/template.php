@@ -25,6 +25,7 @@ if (!defined('NO_HEADER_BAR')) {
 	$url_root = CNavigation::generateUrlToApp(null);
 	$url_urls = CNavigation::generateUrlToApp('Archive', 'urls');
 	$url_show = CNavigation::generateUrlToApp('Dashboard', 'show');
+	$url_user = CNavigation::generateUrlToApp('User');
 	echo <<<END
 <div class="topbar">
 	<div class="topbar-inner">
@@ -36,9 +37,12 @@ if (!defined('NO_HEADER_BAR')) {
 				<li><a href="$url_urls">List</a></li>
 				<li><a href="#">Link</a></li>
 			</ul>
-			<form action="#">
+			<!--<form action="#">
 				<input type="text" placeholder="Search">
-			</form>
+			</form>-->
+			<ul class="nav secondary-nav">
+				<li><a href="$url_user">Lorie</a></li>
+			</ul>
 		</nav>
 	</div>
 </div>

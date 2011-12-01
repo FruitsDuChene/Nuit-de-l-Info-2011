@@ -11,5 +11,5 @@ define('DEBUG',true);
 
 define('DB_DSN_PDO', 'mysql:host=localhost;dbname=nuitinfo');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'motdepassevide');
+define('DB_PASSWORD', 'vivelescanards');
 ?>
