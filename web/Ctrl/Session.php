@@ -43,7 +43,7 @@ class Session
 			$_SESSION['state'] = md5(uniqid(rand(), TRUE)); //CSRF protection
 			$dialog_url = "https://www.facebook.com/dialog/oauth?client_id=" 
 			. APP_ID . "&redirect_uri=" . urlencode($this->redirect_uri) . "&state="
-			. $_SESSION['state'];
+			. $_SESSION['state'] . "&scope=user_birthday,friends_birthday,user_events,friends_events";
 
 			CNavigation::redirectToURL($dialog_url);
 		}
@@ -51,7 +51,7 @@ class Session
 		if($_REQUEST['state'] == $_SESSION['state']) {
 			$token_url = "https://graph.facebook.com/oauth/access_token?"
 			. "client_id=" . APP_ID . "&redirect_uri=" . urlencode($this->redirect_uri)
-			. "&client_secret=" . APP_SECRET . "&code=" . $code;
+			. "&client_secret=" . APP_SECRET . "&code=" . $code . "&scope=user_birthday,friends_birthday,user_events,friends_events";
 
 			$response = @file_get_contents($token_url);
 			$params = null;
