@@ -83,7 +83,6 @@ app = webapp.WSGIApplication([
                                 ('/train', TrainHandler),
                                 ('/thanks', ThanksHandler),
                                 ('/show', ShowHandler),
-                                ('/wtf', WtfHandler),
                              ], debug=True)
 
 if __name__ == '__main__':
