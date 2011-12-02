@@ -10,6 +10,16 @@ class CNavigation
 		global $PAGE_TITLE;
 		$PAGE_TITLE = $title;
 	}
+	
+	public static function getDescription() {
+		global $PAGE_DESCRIPTION;
+		return $PAGE_DESCRIPTION;
+	}
+	
+	public static function setDescription($description) {
+		global $PAGE_DESCRIPTION;
+		$PAGE_DESCRIPTION = $description;
+	}
 
 	public static function getBodyTitle() {
 		global $BODY_PAGE_TITLE;

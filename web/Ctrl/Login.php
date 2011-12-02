@@ -4,8 +4,8 @@ class Login
 {
   public function __construct() {
     $host = 'http://' . $_SERVER['SERVER_NAME'];
-    //$this->redirect_uri = $host . CNavigation::generateUrlToApp('Login', 'index');
-    $this->redirect_uri = $host . CNavigation::generateUrlToApp('Dashboard', 'index');
+    $this->redirect_uri = $host . CNavigation::generateUrlToApp('Login', 'index');
+    //$this->redirect_uri = $host . CNavigation::generateUrlToApp('Dashboard', 'index');
   }
 
   public function index() {

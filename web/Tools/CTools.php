@@ -95,5 +95,8 @@ class CTools
 
 		return $dataPath;
 	}
+	
+	public static function fb($what) { return json_decode(file_get_contents("https://graph.facebook.com/$what?access_token=" . $_SESSION['access_token'])); }
+
 }
 ?>
