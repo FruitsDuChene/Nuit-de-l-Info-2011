@@ -51,6 +51,26 @@
                 });
 
                 {% block jsbonus %}{% endblock %}
+
+                googleapis.auth.checkLoginComplete();
+
+                function login() {
+                    var config = {
+                        'client_id': '609185851266.apps.googleusercontent.com',
+                        'scope': 'https://www.googleapis.com/auth/prediction',
+                    };
+                    googleapis.auth.login(config, checkStatus);
+                }
+
+                function checkStatus() {
+                    if(!googleapis.auth.getToken()) {
+                        alert('Désolé, cette application nécessite que vous l\'autorisiez auprès de Google...');
+                    }
+                }
+
+                //if(!googleapis.auth.getToken()) {
+                    login();
+                    //}
             });
         </script>
     </body>
