@@ -1,14 +1,3 @@
-body{
-padding-top: 50px;
-}
-
-/*.CMessage
-{
-position:absolute;
-top:130px;
-width:964px;
-}*/
-
 h2, h3 {
 color: #404040;
 font-size: 12px;
@@ -28,10 +17,9 @@ float:right;
 }
 
 .page-header {
-background-color: #F5F5F5;
 margin: 20px -20px 20px;
 padding: 20px 20px 10px;
-border-bottom: 1px solid #DDDDDD;
+border-bottom: none;
 margin-bottom: 5px;
 }
 
@@ -99,9 +87,9 @@ color: #FFFFFF;
 }
 
 .notification {
-background-color: #d21a0b;
+background-color: #D21A0B;
 font-weight: bold;
-color:f3f1f1;
+color:#f3f1f1;
 }
 
 .eventTimeline {
@@ -109,7 +97,7 @@ padding: 5px 0;
 }
 
 .eventTimeline:hover {
-background-color:#f5f5f5;
+background-color:#F5F5F5;
 }
 
 .imgEvent { /*Padding 20%*/
@@ -135,6 +123,28 @@ padding: 0 5%;
 color: #3B5998;
 }
 
+.addsuggestion  h2{
+display:inline;
+margin-right: 30px;
+}
+
+.suggestionEnCours a  {
+color:#3B5998;
+}
+
+.addsuggestionUserForm {
+margin:0;
+padding:0;
+}
+
+.addsuggestionUserForm  , .addsuggestionUserForm  label, .addsuggestionUserForm .input{
+display:inline;
+}
+
+.cadeauOfferts a {
+color: #3B5998;
+}
+
 #right {
 
 }
@@ -151,6 +161,23 @@ border-bottom: 1px solid #EEEEEE;
 margin-bottom: 3px;
 }
 
-#footer  {
-border-top:1px solid #EEEEEE;
-}}
+#photoProfile .media-grid a{
+margin:0;
+}
+
+#divTodayNotification span {
+color:#3B5998;
+font-weight:bold;
+}
+
+#mesFavoris {
+margin: 20px 0;
+}
+
+#footer{
+width:640px;
+margin-left:100px;
+padding-left:20px;
+margin-top: 10px;
+color:gray;
+}
