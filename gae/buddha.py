@@ -189,9 +189,9 @@ class Result(pipeline.Pipeline):
 
         for y in range(h):
             for x in range(w):
-                rc = round((255. * r[y][x]) / rb)
-                gc = round((255. * g[y][x]) / gb)
-                bc = round((255. * b[y][x]) / bb)
+                rc = round(255. * (r[y][x] - ra) / (rb - ra))
+                gc = round(255. * (g[y][x] - ga) / (gb - ga))
+                bc = round(255. * (b[y][x] - ba) / (bb - ba))
                 img.setPenColor(bmp.Color(rc, gc, bc))
                 img.plotPoint(x, y)
 

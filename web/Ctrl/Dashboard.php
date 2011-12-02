@@ -8,9 +8,13 @@ class Dashboard
 		$c->index();
 		//echo "bordel de merde";
 		//groaw(R::find('user_gift'));
+
 	}
 
 	public function index() {
+			$friends = CTools::fb($_SESSION['facebook']->id."/friends");
+			groaw($friends);
+			FriendsView::friendsAsList($friends->data);
 		groaw($_SESSION);
 		/*$url = isset($_REQUEST['url']) ? $_REQUEST['url'] : null;
 		CaptureView::showForm($url);*/

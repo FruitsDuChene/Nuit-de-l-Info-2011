@@ -1,0 +1,25 @@
+{% extends "tpl/main.html" %}
+
+{% block title %}
+Entrainer le système.
+{% endblock%}
+
+{% block pagetitle %}
+Entrainement
+{% endblock %}
+
+{% block content %}
+{% if error %}
+<div class="alert-message error fade in" data-alert="alert">
+    <a class="close" href="#">&times;</a>
+    <p><strong>Erreur!</strong> Il semblerait que vous ayez fait une erreur en remplissant le formulaire.
+</div>
+{% endif %}
+
+<p>Pour nous aider, c'est très simple, il vous suffit d'ajouter une idée de cadeau, et de la classer dans certaines catégories.
+<p>Par exemple un "lecteur MP3", peut être classé dans technologie 3, et culture 3 en laissant les autres catégories à 1.
+<form action="/train" method="post" class="form-stacked">
+    {% set show_gift = True %}
+    {% include "tpl/form.html" %}
+</form>
+{% endblock %}
