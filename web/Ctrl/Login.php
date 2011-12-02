@@ -9,12 +9,12 @@ class Login
   }
 
   public function index() {
-    /*
     $code = (isset($_REQUEST['code'])) ? $_REQUEST['code'] : null;
     $this->serverSideFlow($code);
-    */
+    /*
     $this->jsLogin();
     LoginView::showForm($this->redirect_uri);
+    */
   }
 
   private function jsLogin() {
