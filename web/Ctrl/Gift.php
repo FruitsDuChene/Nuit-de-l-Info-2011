@@ -9,10 +9,24 @@ class Gift
 
 	public function form() {
 	
-		if (CNavigation::isValidSubmit(array('nom', 'description', 'eve'), $_REQUEST))
+		if (CNavigation::isValidSubmit(array('nom', 'description', 'eve', 'mode'), $_REQUEST))
 		{
 			$u = R::load('user', $_SESSION['bd_id']);
-			$g = R::dispense('m_gift');
+
+			$g = null;
+			$redirect = 'my_gifts';
+
+			switch (strtolower($_REQUEST['mode'])) {
+				case "my":
+					$g = R::dispense('m_gift');
+					break;
+				case "want":
+					$g = R::dispense('w_gift');
+					$redirect = 'gift_list';
+					break;
+				default:
+					die("connard");
+			}
 			
 			$g->user = $u;
 			$g->nom = $_REQUEST['nom'];
@@ -23,14 +37,21 @@ class Gift
 
 			new CMessage('Cadeau correctement ajouté');
 
-			CNavigation::redirectToApp('Gift');
+			CNavigation::redirectToApp('Gift', $redirect);
 		}
 		else
 		{
-			CNavigation::setTitle("Nouveau cadeau");
-			CNavigation::setDescription("Ajoutez un cadeau que l'on vous a offert");
+			if ($_REQUEST['mode'] === 'want') {
+				CNavigation::setTitle("Nouveau cadeau");
+				CNavigation::setDescription("Ajoutez un cadeau dont vous avez envi");
+			}
+			else
+			{
+				CNavigation::setTitle("Nouveau cadeau");
+				CNavigation::setDescription("Ajoutez un cadeau que l'on vous a offert");
+			}
 
-			GiftView::showForm();
+			GiftView::showForm($_REQUEST['mode']);
 		}
 	}
 
@@ -38,13 +59,19 @@ class Gift
 		CNavigation::setTitle("Mes cadeaux");
 		CNavigation::setDescription("Cadeaux que j'ai déjà reçu");
 
-		CHead::addJS('jquery.tablesorter.min');
 		$u = R::load('user', $_SESSION['bd_id']);
 
 		GiftView::showList($u->ownM_gift);
-		GiftView::showGiftButton();
+		GiftView::showGiftButton('my');
+	}
+	public function gift_list() {
+		CNavigation::setTitle("Mes envies");
+		CNavigation::setDescription("Les cadeaux que j'aimerais avoir");
 
+		$u = R::load('user', $_SESSION['bd_id']);
 
+		GiftView::showList($u->ownW_gift);
+		GiftView::showGiftButton('want');
 	}
 
 	public function add_example() {

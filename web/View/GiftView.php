@@ -2,11 +2,11 @@
 
 class GiftView
 {
-	public static function showGiftButton() {
+	public static function showGiftButton($mode) {
 
 	global $ROOT_PATH;
 
-	$url_gift = CNavigation::generateUrlToApp('Gift','form');
+	$url_gift = CNavigation::generateUrlToApp('Gift','form', array('mode'=>$mode));
 
 	echo <<<END
 		<div class="well">
@@ -15,12 +15,14 @@ class GiftView
 END;
 	}
 
-	public static function showForm() {
+	public static function showForm($mode) {
 
 		$url_submit = CNavigation::generateUrlToApp('Gift', 'form');
+		$hmode = htmlspecialchars($mode);
 
 		echo <<<END
 <form action="$url_submit" name="gift_form" method="post" id="gift_form">
+	<input type="hidden" name="mode" value="$hmode" />
 <fieldset>
 	<div class="clearfix">
 	</div>
@@ -67,6 +69,10 @@ END;
 	</thead>
 	<tbody>
 END;
+
+		if (count($mod) == 0) {
+			echo "<tr><td colspan=\"3\">Aucun cadeau n'est présent</td><tr>";
+		}
 
 		foreach ($mod as $gift) {
 		
