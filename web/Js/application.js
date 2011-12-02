@@ -138,3 +138,7 @@ HTMLElement.prototype.allOffset = function()
 
 	return o;
 };
+
+$(document).ready(function(){
+$('.topbar').dropdown();
+});
