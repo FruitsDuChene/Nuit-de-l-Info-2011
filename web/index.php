@@ -21,7 +21,7 @@ date_default_timezone_set(TIME_ZONE);
 
 session_start();
 
-$CTRL_NAME = isset($_REQUEST['CTRL']) ? $_REQUEST['CTRL'] : 'Session';
+$CTRL_NAME = isset($_REQUEST['CTRL']) ? ($_REQUEST['CTRL'] != '' ? $_REQUEST['CTRL'] : 'Dashboard') : 'Dashboard';
 $ACTION_NAME = isset($_REQUEST['EX']) ? $_REQUEST['EX'] : 'index';
 
 // It's better to remove path special characters
@@ -29,13 +29,39 @@ $ctrl_filename = 'Ctrl/'.strtr($CTRL_NAME, '/\\.', '   ').'.php';
 if (file_exists($ctrl_filename)) {
 	require_once($ctrl_filename);
 } else {
-	$CTRL_NAME = 'Dashboard';
+	$CTRL_NAME = 'Error';
 }
 
 $CTRL = new $CTRL_NAME();
 if (!method_exists($CTRL, $ACTION_NAME)) {
-	$ACTION_NAME = 'index';
+	$CTRL = new Error();
+	$CTRL_NAME = 'Error';
+	$ACTION_NAME = 'page_not_found';
 }
+
+// If the user is not at the login page
+if (!defined('NO_LOGIN_REQUIRED')) {
+    // If the user is logged
+    if (isset($_SESSION['logged'])) {
+		if (isset($_SESSION['redirection_url'])) {
+			$t = $_SESSION['redirection_url'];
+			unset($_SESSION['redirection_url']);
+			CNavigation::redirectToURL($t);
+		}
+    }
+    else {
+		$_SESSION['redirection_url'] = $_SERVER['REQUEST_URI'];
+		CNavigation::redirectToApp('Session','login');
+    }
+}
+
+CHead::addCSS('bootstrap.min');
+CHead::addCSS('application');
+CHead::addCSS($CTRL_NAME);
+CHead::addJS('jquery-1.6.2.min');
+CHead::addJS('bootstrap-dropdown');
+CHead::addJS('application');
+CHead::addJS($CTRL_NAME);
 
 $CTRL->{$ACTION_NAME}();
 
@@ -45,12 +71,6 @@ if (isset($_REQUEST['AJAX_MODE'])) {
 }
 else {
 	// Call of the function
-	CHead::addCSS('bootstrap.min');
-	CHead::addCSS('application');
-	CHead::addCSS($CTRL_NAME);
-	CHead::addJS('application');
-	CHead::addJS($CTRL_NAME);
-
 	CMessage::showMessages();
 
 	$PAGE_CONTENT = ob_get_contents();

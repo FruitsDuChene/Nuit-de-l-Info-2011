@@ -1,0 +1,47 @@
+{% extends "tpl/main.html" %}
+
+{% block pagetitle %}
+Trouver des idées de cadeaux pour vos amis!
+{% endblock %}
+
+{% block title %}
+GiftIdeas - Trouver des idées de cadeaux pour vos amis!
+{% endblock%}
+
+{% block content %}
+<p><span class="label notice">Nouveau!</span> Pour trouver une idée de cadeau pour un ami, c'est très simple, entrez le prix que vous souhaitez y mettre, et ensuite noter les centres d'intérêt de votre ami en utilisant les sliders.
+<form action="/" method="post" class="form-stacked">
+    {% include "tpl/form.html" %}
+</form>
+
+<div id="result">
+    <table class="zebra-stripped">
+        <thead>
+            <tr>
+                <th class="yellow">Cadeau</th>
+                <th class="blue">Prix</th>
+                <th class="green">% de confiance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>iPad</td>
+                <td>600</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>Laptop</td>
+                <td>400</td>
+                <td>75</td>
+            </tr>
+        </body>
+    </table>
+</div>
+{% endblock %}
+
+{% block jsbonus %}
+{% include "tpl/predict.js" %}
+
+$('#result table').tablesorter({ sortList: [[0, 0]]});
+{% endblock %}
+

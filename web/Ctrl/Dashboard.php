@@ -3,13 +3,21 @@
 class Dashboard
 {
 
+	public function refresh() {
+		$c = new User();
+		$c->index();
+		//groaw(R::find('user_gift'));
+	}
+
 	public function index() {
-		$url = isset($_REQUEST['url']) ? $_REQUEST['url'] : null;
-		CaptureView::showForm($url);
+		/*$url = isset($_REQUEST['url']) ? $_REQUEST['url'] : null;
+		CaptureView::showForm($url);*/
 
 		/*$book = R::dispense( 'book' );
 		$book->coucou = "Salut";
 		R::store($book);*/
+		echo "coucou tu veux voir ma bite ?<h2>Vous avez perdu !</h2>";
+
 	}
 
 	public function submit() {

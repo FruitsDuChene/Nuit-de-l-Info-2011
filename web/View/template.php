@@ -25,20 +25,31 @@ if (!defined('NO_HEADER_BAR')) {
 	$url_root = CNavigation::generateUrlToApp(null);
 	$url_urls = CNavigation::generateUrlToApp('Archive', 'urls');
 	$url_show = CNavigation::generateUrlToApp('Dashboard', 'show');
+	$url_user = CNavigation::generateUrlToApp('User');
 	echo <<<END
 <div class="topbar">
 	<div class="topbar-inner">
 		<nav class="container">
-			<h3><a href="$url_root">WebDiskettes</a></h3>
+			<h3><a href="$url_root">Super application de la mort qui tue</a></h3>
 			<ul class="nav">
 				<li class="active"><a href="$url_root">Home</a></li>
-				<li><a href="$url_show">Show</a></li>
+				<li><a href="$url_show">Ajouter un cadeau <em>(de merde)</em></a></li>
 				<li><a href="$url_urls">List</a></li>
 				<li><a href="#">Link</a></li>
 			</ul>
-			<form action="#">
+			<!--<form action="#">
 				<input type="text" placeholder="Search">
-			</form>
+			</form>-->
+			<ul class="nav secondary-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">Lorie</a>
+					<ul class="dropdown-menu">
+						<li><a href="$url_user">Préférences</a></li>
+						<li><a href="$url_user">Aide</a></li>
+						<li class="divider"></li>
+						<li><a href="$url_user">Déconnexion</a></li>
+					</ul>
+			</ul>
 		</nav>
 	</div>
 </div>
