@@ -3,16 +3,31 @@
 define('NO_LOGIN_REQUIRED', true);
 define('NO_HEADER_BAR', true);
 
+// http://157.169.101.145
+
 class Session
 {
 	public function __construct() {
 		$host = 'http://' . $_SERVER['SERVER_NAME'];
 		$this->redirect_uri = $host . CNavigation::generateUrlToApp('Session', 'index');
 	}
+	
+	private function fb($what) { return json_decode(file_get_contents("https://graph.facebook.com/$what?access_token=" . $_SESSION['access_token'])); }
 
 	public function index() {
 		$code = (isset($_REQUEST['code'])) ? $_REQUEST['code'] : null;
 		$this->serverSideFlow($code);
+		
+		// If we successfully logged in
+		if($_SESSION['logged'] === true) {
+			// Get the user ID
+			$user = $this->fb("me");
+			$id = $user->id;
+			
+			// Get the user friends
+			$friends = $this->fb("$id/friends");
+			FriendsView::friendsAsList($friends->data);
+		}
 	}
 
 	/*public function login() {
@@ -58,17 +73,15 @@ class Session
 			$params = null;
 			parse_str($response, $params);
 
-			$graph_url = "https://graph.facebook.com/me?access_token=" 
-			. $params['access_token'];
-
-			$user = json_decode(file_get_contents($graph_url));
-
-			groaw($user);
-			$_SESSION['logged'] = true;
+			$user = $this->fb("me");
 			echo("Hello " . $user->name);
+			
+			$_SESSION['logged'] = true;
+			$_SESSION['access_token'] = $params['access_token'];
 		}
 		else {
 			echo("The state does not match. You may be a victim of CSRF.");
+			$_SESSION['logged'] = false;
 		}
 	}
 }

@@ -95,5 +95,6 @@ class CTools
 
 		return $dataPath;
 	}
+	
 }
 ?>
