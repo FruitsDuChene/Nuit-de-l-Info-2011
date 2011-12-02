@@ -32,9 +32,13 @@ if (!defined('NO_HEADER_BAR')) {
 	$url_urls = CNavigation::generateUrlToApp('Archive', 'urls');
 	$url_show = CNavigation::generateUrlToApp('Dashboard', 'show');
 	$url_user = CNavigation::generateUrlToApp('User');
+	$url_gift = CNavigation::generateUrlToApp('Gift');
 	$url_logout = CNavigation::generateUrlToApp('Session', 'logout');
 
 	$user_name = htmlspecialchars($_SESSION['facebook']->name);
+
+	$c_user = $CTRL_NAME === 'User' ? ' class="active"' : '';
+	$c_gift = $CTRL_NAME === 'Gift' ? ' class="active"' : '';
 
 	echo <<<END
 <div class="topbar">
@@ -46,7 +50,8 @@ if (!defined('NO_HEADER_BAR')) {
 					<li class="notification"><a href="#">45</a></li>
 				</ul>
 					<ul class="nav right">
-					<li class="active"><a href="#">Mon profil</a></li>
+					<li$c_user><a href="$url_user">Mon profil</a></li>
+					<li$c_gift><a href="$url_gift">Mes cadeaux</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle">$user_name</a>
 						<ul class="dropdown-menu">
@@ -56,8 +61,6 @@ if (!defined('NO_HEADER_BAR')) {
 							<li><a href="$url_logout">Déconnexion</a></li>
 						</ul>
 					</li>
-					<li><a href="#about">Mes suggestions</a></li>
-					<li><a href="#contact">element</a></li>
 				</ul>
 			<!--<form action="#">
 				<input type="text" placeholder="Search">

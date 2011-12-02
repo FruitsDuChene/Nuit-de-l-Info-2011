@@ -4,16 +4,18 @@ class Dashboard
 {
 
 	public function refresh() {
-		$c = new User();
-		$c->index();
+		$c = new Gift();
+		$c->form();
 		//echo "bordel de merde";
 		//groaw(R::find('user_gift'));
 
 	}
 
 	public function index() {
-			$friends = CTools::fb("me/friends");
-			FriendsView::friendsAsList($friends->data);
+			$this->refresh();
+			return;
+			$friends = CTools::fb($_SESSION['facebook']->id."/friends");
+			groaw($friends);
 	}
 
 	public function submit() {

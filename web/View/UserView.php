@@ -5,6 +5,22 @@ class UserView
 	public static function showProfil() {
 
 	global $ROOT_PATH;
+	
+	$friends = CTools::fb($_SESSION['facebook']->id."/friends");
+	$friends = $friends->data;
+	
+	$birthdays = '';
+	$LAST = 5;
+	for($i=0; $i<$LAST; $i++) {
+		$friend_info = CTools::fb($friends[$i]->id);
+		if(isset($friend_info->birthday)) {
+			$birthdays .= '<a href="#">' . $friend_info->birthday . '</a>';
+			if($i != $LAST-1) $birthdays .= ',';
+		}
+	}
+	
+	$events = CTools::fb("/me/events");
+	groaw($events);
 
 	echo <<<END
 <!-- 1 ROW 3 Collumns -->
@@ -35,7 +51,8 @@ class UserView
 					<div class="alert-message block-message warning">
 						<h2>Ce qui se passe aujourd'hui :</h2>
 						<p>Les fetes : <a href="#">Noel</a>.</p>
-						<p>Les anniversaires : <a href="#">Toto</a>, <a href="#">Toto</a>, <a href="#">Toto</a>, <a href="#">Toto</a>.</p>
+						
+						<p>Les anniversaires : $birthdays.</p>
 					</div>
 				</div>	
 				<div id="timeLine">
