@@ -6,12 +6,19 @@ class User
 		//groaw(R::find('user'));
 
 		CNavigation::setTitle('Mon profil');
-		CNavigation::setDescription('Voici les informations importantes');
+		CNavigation::setDescription('Informations importantes');
 
 		UserView::showProfil();
 
 		//groaw(CTools::fb('me/events'));
 		//groaw($_SESSION['facebook']);
+	}
+
+	public function settings() {
+		CNavigation::setTitle('Préférences du compte');
+		CNavigation::setDescription('Modifiez les préférences de votre compte');
+
+		UserView::showPrefs();
 	}
 
 	public function add_example() {

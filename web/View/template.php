@@ -34,6 +34,8 @@ if (!defined('NO_HEADER_BAR')) {
 	$url_user = CNavigation::generateUrlToApp('User');
 	$url_gift = CNavigation::generateUrlToApp('Gift');
 	$url_logout = CNavigation::generateUrlToApp('Session', 'logout');
+	$url_pref = CNavigation::generateUrlToApp('User', 'settings');
+	$url_help = 'http://perdu.com';
 
 	$user_name = htmlspecialchars($_SESSION['facebook']->name);
 
@@ -55,8 +57,8 @@ if (!defined('NO_HEADER_BAR')) {
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle">$user_name</a>
 						<ul class="dropdown-menu">
-							<li><a href="$url_user">Préférences</a></li>
-							<li><a href="$url_user">Aide</a></li>
+							<li><a href="$url_pref">Préférences</a></li>
+							<li><a href="$url_help">Aide</a></li>
 							<li class="divider"></li>
 							<li><a href="$url_logout">Déconnexion</a></li>
 						</ul>
@@ -85,6 +87,9 @@ if (DEBUG) {
 ?>
 
 <?php
+// Call of the function
+CMessage::showMessages();
+
 echo $PAGE_CONTENT;
 ?>
 

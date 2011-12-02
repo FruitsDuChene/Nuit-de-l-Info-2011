@@ -11,5 +11,6 @@ class UrlView extends AbstractView {
 		}
 		echo "</ul>\n";
 	}
+
 }
 ?>

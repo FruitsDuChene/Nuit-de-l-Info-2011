@@ -65,8 +65,12 @@ class LoginView extends AbstractView {
 
 	public static function showLoginButton() {
 		$login_url = CNavigation::generateUrlToApp('Session', 'submit');
+		global $ROOT_PATH;
+
 		echo <<<END
-<h1><a href="$login_url">Se connecter avec ce putain de site de merde</a></h1>
+<h1 class="title">Le Lapin Malin</h1>
+
+<p class="facebook_login"><a href="$login_url">Se connecter avec facebook <em>(le seul login qui marche de toutes façons)</em></a></p>
 END;
 	}
         

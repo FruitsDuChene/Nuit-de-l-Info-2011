@@ -15,7 +15,7 @@ class SessionView {
 		}
 
 
-		$url = CNavigation::generateUrlToApp('Session', 'login', null);
+		$url = CNavigation::generateUrlToApp('Error', 'no_login');
 		echo <<<END
 <form action="$url" name="login" method="post" $class>
 	<p>
