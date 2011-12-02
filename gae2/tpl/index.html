@@ -19,19 +19,16 @@ GiftIdeas - Trouver des idées de cadeaux pour vos amis!
         <thead>
             <tr>
                 <th class="yellow">Cadeau</th>
-                <th class="blue">Prix</th>
                 <th class="green">% de confiance</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>iPad</td>
-                <td>600</td>
                 <td>25</td>
             </tr>
             <tr>
                 <td>Laptop</td>
-                <td>400</td>
                 <td>75</td>
             </tr>
         </body>
@@ -42,6 +39,6 @@ GiftIdeas - Trouver des idées de cadeaux pour vos amis!
 {% block jsbonus %}
 {% include "tpl/predict.js" %}
 
-$('#result table').tablesorter({ sortList: [[0, 0]]});
+$('#result table').tablesorter({ sortList: [[1, 1]]});
 {% endblock %}
 
