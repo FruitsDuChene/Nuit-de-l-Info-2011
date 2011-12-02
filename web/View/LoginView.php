@@ -70,7 +70,7 @@ class LoginView extends AbstractView {
 		echo <<<END
 <h1 class="title">Le Lapin Malin</h1>
 
-<p class="facebook_login"><a href="$login_url">Se connecter avec facebook <em>(le seul login qui marche de toutes façons)</em></a></p>
+<p class="facebook_login"><a href="$login_url">Se connecter avec facebook <em>(obligatoire)</em></a></p>
 END;
 	}
         
