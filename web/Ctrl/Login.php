@@ -48,6 +48,8 @@ class Login
         . $params['access_token'];
 
       $user = json_decode(file_get_contents($graph_url));
+
+	  $_SESSION['logged'] = true;
       echo("Hello " . $user->name);
     }
     else {
