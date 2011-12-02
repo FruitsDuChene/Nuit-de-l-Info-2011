@@ -56,6 +56,7 @@ class Session
 			$_SESSION['access_token'] = $params['access_token'];
 			$user = CTools::fb("me");
 			$_SESSION['facebook'] = $user;
+			$_SESSION['id'] = $user->id;
 			$_SESSION['logged'] = true;
 		
 			CNavigation::redirectToApp();

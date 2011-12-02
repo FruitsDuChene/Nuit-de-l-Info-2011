@@ -12,7 +12,6 @@ class ErrorView
 
 		echo <<<END
 <div class="alert-message error">
-<p><strong>Error $number</strong></p>
 <p>$hmessage</p>
 </div>
 <div class="alert-message block-message error">

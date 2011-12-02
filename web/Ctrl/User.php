@@ -5,10 +5,12 @@ class User
 	public function index() {
 		//groaw(R::find('user'));
 
-		CNavigation::setTitle('Profil');
-		CNavigation::setDescription('Dominez le monde, et achetez des canards');
+		CNavigation::setTitle('Mon profil');
+		CNavigation::setDescription('Voici les informations importantes');
 
 		UserView::showProfil();
+
+		//groaw(CTools::fb('me/events'));
 		//groaw($_SESSION['facebook']);
 	}
 

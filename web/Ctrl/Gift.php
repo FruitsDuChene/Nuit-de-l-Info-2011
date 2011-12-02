@@ -4,7 +4,25 @@ class Gift
 {
 
 	public function index() {
-		groaw(R::find('gift'));
+		$this->my_gifts();
+	}
+
+	public function form() {
+		CNavigation::setTitle("Nouveau cadeau");
+		CNavigation::setDescription("Ajoutez un cadeau que l'on vous a offert");
+
+		GiftView::showForm();
+	}
+
+	public function my_gifts() {
+		CNavigation::setTitle("Mes cadeaux");
+		CNavigation::setDescription("Cadeaux que j'ai déjà reçu");
+
+		$u = R::load('user', $_SESSION['id']);
+		groaw($u->ownUser_gift);
+
+		GiftView::showGiftList();
+
 	}
 
 	public function add_example() {
@@ -49,6 +67,7 @@ class Gift
 
 	public function get_gift_example() {
 		/*$u = R::load('user', 1);
+		groaw(R::find('gift_history', 'user_to_id = ?', array(1)));
 		groaw($u->ownUser_gift);*/
 		//groaw($u->ownGift_history);
 		
