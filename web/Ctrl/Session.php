@@ -22,6 +22,8 @@ class Session
 			CHead::addJs('sha1');
 			CHead::delCSS('bootstrap.min');
 			new SessionView();
+
+			$_SESSION['no_rewrite'] = true;
 	}
 
 	public function submit() {
@@ -32,12 +34,15 @@ class Session
 	public function logout() {
 		session_destroy();
 
+		unset($_SESSION['no_rewrite']);
 		new CMessage(_('Successful logout'));
 
 		CNavigation::redirectToApp('Session','login');
 	}
   
 	private function serverSideFlow($code) {
+		
+		unset($_SESSION['redirection_url']);
 
 		if(empty($code)) {
 			$_SESSION['state'] = md5(uniqid(rand(), TRUE)); //CSRF protection
