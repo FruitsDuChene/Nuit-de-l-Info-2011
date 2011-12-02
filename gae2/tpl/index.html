@@ -40,5 +40,25 @@ GiftIdeas - Trouver des idées de cadeaux pour vos amis!
 {% include "tpl/predict.js" %}
 
 $('#result table').tablesorter({ sortList: [[1, 1]]});
+
+googleapis.auth.checkLoginComplete();
+
+function login() {
+    var config = {
+        'client_id': '609185851266.apps.googleusercontent.com',
+        'scope': 'https://www.googleapis.com/auth/prediction',
+};
+    googleapis.auth.login(config, checkStatus);
+}
+
+function checkStatus() {
+    if(!googleapis.auth.getToken()) {
+        alert('Désolé, cette application nécessite que vous l\'autorisiez auprès de Google...');
+    }
+}
+
+if(!googleapis.auth.getToken()) {
+    login();
+}
 {% endblock %}
 
