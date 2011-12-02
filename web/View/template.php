@@ -41,7 +41,14 @@ if (!defined('NO_HEADER_BAR')) {
 				<input type="text" placeholder="Search">
 			</form>-->
 			<ul class="nav secondary-nav">
-				<li><a href="$url_user">Lorie</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">Lorie</a>
+					<ul class="dropdown-menu">
+						<li><a href="$url_user">Préférences</a></li>
+						<li><a href="$url_user">Aide</a></li>
+						<li class="divider"></li>
+						<li><a href="$url_user">Déconnexion</a></li>
+					</ul>
 			</ul>
 		</nav>
 	</div>
