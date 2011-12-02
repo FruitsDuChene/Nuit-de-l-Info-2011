@@ -62,6 +62,13 @@ class LoginView extends AbstractView {
       </div>
 <?php
         }
+
+	public static function showLoginButton() {
+		$login_url = CNavigation::generateUrlToApp('Session', 'submit');
+		echo <<<END
+<h1><a href="$login_url">Se connecter avec ce putain de site de merde</a></h1>
+END;
+	}
         
 }
 ?>

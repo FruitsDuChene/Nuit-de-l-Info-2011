@@ -6,10 +6,12 @@ class Dashboard
 	public function refresh() {
 		$c = new User();
 		$c->index();
+		//echo "bordel de merde";
 		//groaw(R::find('user_gift'));
 	}
 
 	public function index() {
+		groaw($_SESSION);
 		/*$url = isset($_REQUEST['url']) ? $_REQUEST['url'] : null;
 		CaptureView::showForm($url);*/
 

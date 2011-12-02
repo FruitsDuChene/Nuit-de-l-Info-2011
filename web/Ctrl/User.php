@@ -3,7 +3,13 @@
 class User
 {
 	public function index() {
-		groaw(R::find('user'));
+		//groaw(R::find('user'));
+
+		CNavigation::setTitle('Profil');
+		CNavigation::setDescription('Dominez le monde, et achetez des canards');
+
+		UserView::showProfil();
+		//groaw($_SESSION['facebook']);
 	}
 
 	public function add_example() {

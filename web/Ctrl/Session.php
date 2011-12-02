@@ -7,28 +7,21 @@ class Session
 {
 	public function __construct() {
 		$host = 'http://' . $_SERVER['SERVER_NAME'];
-		$this->redirect_uri = $host . CNavigation::generateUrlToApp('Session', 'index');
+		$this->redirect_uri = $host . CNavigation::generateUrlToApp('Session', 'submit');
 	}
 
 	public function index() {
+		$this->login();
+	}
+
+	public function login() {
+		LoginView::showLoginButton();
+	}
+
+	public function submit() {
 		$code = (isset($_REQUEST['code'])) ? $_REQUEST['code'] : null;
 		$this->serverSideFlow($code);
 	}
-
-	/*public function login() {
-
-		if (CNavigation::isValidSubmit(array('email_facebook', 'password_facebook') , $_REQUEST))
-		{
-			$_SESSION['logged'] = true;
-			CNavigation::redirectToApp();
-		}
-		else
-		{
-			CHead::addJs('sha1');
-			CHead::delCSS('bootstrap.min');
-			new SessionView();
-		}
-	}*/
 
 	public function logout() {
 		session_destroy();
@@ -63,9 +56,10 @@ class Session
 
 			$user = json_decode(file_get_contents($graph_url));
 
-			groaw($user);
 			$_SESSION['logged'] = true;
-			echo("Hello " . $user->name);
+			$_SESSION['facebook'] = $user;
+
+			CNavigation::redirectToApp();
 		}
 		else {
 			echo("The state does not match. You may be a victim of CSRF.");
