@@ -28,16 +28,13 @@ class Offer
 	}
 
 	public function liste() {
-
 		$super_id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
-		$u = R::load('user', $super_id);
-
-
+		
 		$f_u = CTools::fb('/'.$super_id);
-
+		
 		CNavigation::setTitle("La liste de ".$f_u->name);
-		CNavigation::setDescription("Les cadeaux que ".$f_u->name." aimerait avoir");
-		GiftView::showList($u->ownW_gift);
+		
+		GiftView::showList(R::getAll('select * from w_gift w, user u where w.user_id = u.id and u.facebook_id = ?', array($super_id)));
 	}
 
 	static function cmp_friend($a, $b)
@@ -49,7 +46,7 @@ class Offer
 			$bbl = strtolower($b->name);
         	return ($aal > $bbl) ? +1 : -1;
         }
-        return ($al > $bl) ? +1 : -1;
+        return ($al < $bl) ? +1 : -1;
     }
 }
 

@@ -75,10 +75,15 @@ END;
 		}
 
 		foreach ($mod as $gift) {
-		
-			$hnom = htmlspecialchars($gift->nom);
-			$hdescription = htmlspecialchars($gift->description);
-			$heve = htmlspecialchars($gift->eve);
+			if (isset($gift['facebook_id'])) {
+				$hnom = htmlspecialchars($gift['nom']);
+				$hdescription = htmlspecialchars($gift['description']);
+				$heve = htmlspecialchars($gift['eve']);
+			} else {
+				$hnom = htmlspecialchars($gift->nom);
+				$hdescription = htmlspecialchars($gift->description);
+				$heve = htmlspecialchars($gift->eve);
+			}
 
 			echo <<<END
 		<tr>
