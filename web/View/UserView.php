@@ -70,6 +70,14 @@ class UserView
 		</div>
 END;
 	}
+	
+	public function showPrefs() {
+	echo <<<END
+<div class="alert-message warning">
+  <p>Il n'y a pas de préférences pour l'instant.</p>
+</div>
+END;
+	}
 }
 
 ?>

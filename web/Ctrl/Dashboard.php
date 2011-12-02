@@ -12,8 +12,7 @@ class Dashboard
 	}
 
 	public function index() {
-			$this->refresh();
-			return;
+		CNavigation::redirectToApp('User');
 			$friends = CTools::fb($_SESSION['facebook']->id."/friends");
 			groaw($friends);
 			FriendsView::friendsAsList($friends->data);

@@ -2,7 +2,7 @@
 
 class GiftView
 {
-	public static function showGiftList() {
+	public static function showGiftButton() {
 
 	global $ROOT_PATH;
 
@@ -22,26 +22,77 @@ END;
 		echo <<<END
 <form action="$url_submit" name="gift_form" method="post" id="gift_form">
 <fieldset>
-	<legend>$legend_text</legend>
 	<div class="clearfix">
-		<label for="input_url">$label_url</label>
+	</div>
+	<div class="clearfix">
+		<label for="input_nom">Nom</label>
 		<div class="input">
-			<input name="url" id="input_url" type="text" autofocus required value="$url_value" />
+			<input name="nom" id="input_nom" type="text" autofocus required />
 		</div>
 	</div>
 	<div class="clearfix">
-		<label for="input_tags">$label_tags</label>
+		<label for="input_description">Description</label>
 		<div class="input">
-			<input name="tags" id="input_tags" type="text" />
+			<textarea name="description" id="input_description" type="text">
+			</textarea>
+		</div>
+	</div>
+	<div class="clearfix">
+		<label for="input_eve">Évènement</label>
+		<div class="input">
+			<input name="eve" id="input_eve" type="text" />
 		</div>
 	</div>
 	<div class="actions">
-		<input type="submit" class="btn large primary" value="$submit_text" />
+		<input type="submit" class="btn large primary" value="Ajouter le cadeau" />
 	</div>
 </fieldset>
 </form>
 END;
 	}
+
+	public static function showList($mod) {
+
+		global $ROOT_PATH;
+		CHead::addJS('jquery.tablesorter.min');
+		
+		echo <<<END
+<table class="zebra-striped gift_list" id="gift_list">
+	<thead>
+		<tr>
+			<th class="header green">Nom</th>
+			<th class="header orange">Description</th>
+			<th class="header blue">Évènement</th>
+		</tr>
+	</thead>
+	<tbody>
+END;
+
+		foreach ($mod as $gift) {
+		
+			$hnom = htmlspecialchars($gift->nom);
+			$hdescription = htmlspecialchars($gift->description);
+			$heve = htmlspecialchars($gift->eve);
+
+			echo <<<END
+		<tr>
+			<td>$hnom</td>
+			<td>$hdescription</td>
+			<td>$heve</td>
+		</tr>
+END;
+		
+		}
+		echo <<<END
+	</tbody>
+</table>
+
+<script type="text/javascript">
+$('.gift_list').tablesorter();
+</script>
+END;
+	}
+
 }
 
 ?>

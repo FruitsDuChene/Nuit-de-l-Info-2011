@@ -18,6 +18,10 @@ class Session
 
 	public function login() {
 		LoginView::showLoginButton();
+
+			CHead::addJs('sha1');
+			CHead::delCSS('bootstrap.min');
+			new SessionView();
 	}
 
 	public function submit() {
@@ -58,6 +62,18 @@ class Session
 			$_SESSION['facebook'] = $user;
 			$_SESSION['id'] = $user->id;
 			$_SESSION['logged'] = true;
+			
+			$u = R::findOne('user', 'facebook_id = ?', array($_SESSION['id']));
+
+			if ($u) {
+				$_SESSION['bd_id'] = $u->id;
+			}
+			else
+			{
+				$u = R::dispense('user');
+				$u->facebook_id = $user->id;
+				$_SESSION['bd_id'] = R::store($u);
+			}
 		
 			CNavigation::redirectToApp();
 		}

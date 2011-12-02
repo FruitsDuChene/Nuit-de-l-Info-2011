@@ -70,9 +70,6 @@ if (isset($_REQUEST['AJAX_MODE'])) {
 	ob_end_flush();
 }
 else {
-	// Call of the function
-	CMessage::showMessages();
-
 	$PAGE_CONTENT = ob_get_contents();
 	ob_end_clean();
 
