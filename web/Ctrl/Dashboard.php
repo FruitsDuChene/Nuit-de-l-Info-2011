@@ -12,18 +12,8 @@ class Dashboard
 	}
 
 	public function index() {
-			$friends = CTools::fb($_SESSION['facebook']->id."/friends");
-			groaw($friends);
+			$friends = CTools::fb("me/friends");
 			FriendsView::friendsAsList($friends->data);
-		groaw($_SESSION);
-		/*$url = isset($_REQUEST['url']) ? $_REQUEST['url'] : null;
-		CaptureView::showForm($url);*/
-
-		/*$book = R::dispense( 'book' );
-		$book->coucou = "Salut";
-		R::store($book);*/
-		echo "coucou tu veux voir ma bite ?<h2>Vous avez perdu !</h2>";
-
 	}
 
 	public function submit() {
