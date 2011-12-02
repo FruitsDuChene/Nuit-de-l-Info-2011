@@ -8,7 +8,7 @@ class User
 		CNavigation::setTitle('Mon profil');
 		CNavigation::setDescription('Informations importantes');
 
-		//UserView::showProfil();
+		UserView::showProfil();
 
 		//groaw(CTools::fb('me/events'));
 		//groaw($_SESSION['facebook']);

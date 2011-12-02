@@ -59,7 +59,6 @@ class Gift
 		CNavigation::setTitle("Mes cadeaux");
 		CNavigation::setDescription("Cadeaux que j'ai déjà reçu");
 
-		CHead::addJS('jquery.tablesorter.min');
 		$u = R::load('user', $_SESSION['bd_id']);
 
 		GiftView::showList($u->ownM_gift);
@@ -69,7 +68,6 @@ class Gift
 		CNavigation::setTitle("Mes envies");
 		CNavigation::setDescription("Les cadeaux que j'aimerais avoir");
 
-		CHead::addJS('jquery.tablesorter.min');
 		$u = R::load('user', $_SESSION['bd_id']);
 
 		GiftView::showList($u->ownW_gift);

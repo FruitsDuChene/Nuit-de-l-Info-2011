@@ -12,10 +12,6 @@ class UserView
 	$friends = CTools::fb($_SESSION['facebook']->id."/friends");
 	$friends = $friends->data;
 	
-	foreach($friends as $f) {
-		echo '<a href="#">' . $f->name . '</a>' . '<br />';
-	}
-	
 	$birthdays = '';
 	$LAST = 5;
 	for($i=0; $i<$LAST; $i++) {
@@ -145,6 +141,47 @@ class UserView
 			</div>
 		</div>
 END;
+	}
+
+	public static function showFriendList($mod) {
+
+		global $ROOT_PATH;
+		CHead::addJS('jquery.tablesorter.min');
+		
+		echo <<<END
+<table class="zebra-striped gift_list" id="gift_list">
+	<thead>
+		<tr>
+			<th class="header orange">Nom</th>
+			<th class="header purple headerSortUp">Nombre de cadeaux désirés</th>
+		</tr>
+	</thead>
+	<tbody>
+END;
+
+		foreach ($mod as $friend) {
+		
+			$hnom = htmlspecialchars($friend->nom);
+			$nb = htmlspecialchars($friend->nb_cadeaux);
+			$hurl = CNavigation::generateUrlToApp('Offer','liste', array('id'=>$friend->id));
+
+			echo <<<END
+		<tr>
+			<td><a href="$hurl">$hnom</a></td>
+			<td>$nb</td>
+		</tr>
+END;
+		
+		}
+		echo <<<END
+	</tbody>
+</table>
+
+<script type="text/javascript">
+$('.gift_list').tablesorter();
+</script>
+END;
+
 	}
 }
 

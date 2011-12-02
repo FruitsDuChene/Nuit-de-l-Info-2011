@@ -70,6 +70,10 @@ END;
 	<tbody>
 END;
 
+		if (count($mod) == 0) {
+			echo "<tr><td colspan=\"3\">Aucun cadeau n'est présent</td><tr>";
+		}
+
 		foreach ($mod as $gift) {
 		
 			$hnom = htmlspecialchars($gift->nom);
