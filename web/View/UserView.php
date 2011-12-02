@@ -12,18 +12,22 @@ class UserView
 	$friends = CTools::fb($_SESSION['facebook']->id."/friends");
 	$friends = $friends->data;
 	
+	/*
 	foreach($friends as $f) {
 		echo '<a href="#">' . $f->name . '</a>' . '<br />';
 	}
+	*/
 	
 	$birthdays = '';
 	$LAST = 5;
 	for($i=0; $i<$LAST; $i++) {
 		$friend_info = CTools::fb($friends[$i]->id);
+		
 		if(isset($friend_info->birthday)) {
 			$birthdays .= '<a href="#">' . $friend_info->birthday . '</a>';
 			if($i != $LAST-1) $birthdays .= ',';
 		}
+		
 	}
 	
 	$events = CTools::fb("/me/events");
@@ -56,7 +60,7 @@ class UserView
 		}
 		
 		// Today
-		echo date("m.d.y") . ' // ' . date("m.d.y", $tmps) . '<br />';
+		//echo date("m.d.y") . ' // ' . date("m.d.y", $tmps) . '<br />';
 		if(($now > $tmps && $now < $tmpe) || (date("m.d.y") == date("m.d.y", $tmps))) {
 			$fetes_today_array[] = '<a href="#">' . $events[$i]->name . '</a>';
 		}
@@ -80,13 +84,17 @@ class UserView
 	}
 
 	echo <<<END
+	<div class="page-header">
+		<img src="$ROOT_PATH/Img/baniere.png" alt="banniere" />
+  </div>
+
 <!-- 1 ROW 3 Collumns -->
 		<div class="row">
 			<div class="span2" id="left">
 				<div id="mesfiltres">
 					<h2>Filtres :</h2>
 						<ul>
-							<li><a href="#"> anniversaire</a></li>
+							<li><a href="#"> anniversaires</a></li>
 							<li><a href="#"> fetes</a></li>
 							<li><a href="#"> mariages</a></li>
 						</ul>

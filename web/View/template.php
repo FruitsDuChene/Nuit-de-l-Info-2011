@@ -46,6 +46,11 @@ if (!defined('NO_HEADER_BAR')) {
 <div class="topbar">
 	<div class="topbar-inner">
 		<nav class="container">
+		
+		  <ul class="nav left">
+				<li class="active points"><img src="stylesheet/img/lapinlogo.png" alt="logo" width="20px" height="20px" /></li>
+      </ul>
+
 			<h3><a href="$url_root">Tortue</a></h3>
 				<ul class="nav left">
 					<li class="active points">Mes points : 4562</li>
