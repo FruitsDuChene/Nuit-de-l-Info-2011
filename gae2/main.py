@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 #-*- coding: utf-8 -*-
 
+import logging
 import os
 
 import jinja2
@@ -14,7 +15,7 @@ jinja_environment = jinja2.Environment(
 
 class GiftData(db.Model):
     gift = db.StringProperty()
-    price = db.IntegerProperty()
+    price = db.FloatProperty()
     tech = db.IntegerProperty()
     culture = db.IntegerProperty()
     games = db.IntegerProperty()
@@ -30,37 +31,35 @@ class IndexHandler(webapp.RequestHandler):
 
 class TrainHandler(webapp.RequestHandler):
     def get(self):
+        error = self.request.get('error') == 'true'
         self.response.out.write(
-                jinja_environment.get_template('tpl/train.html').render())
+                jinja_environment.get_template('tpl/train.html').render({'error': error}))
 
     def post(self):
         try:
-            # check limits
-            gift = self.request.get('gift')
-            price = int(self.request.get('price'))
+            gift = self.request.get('gift').strip()
+            price = float(self.request.get('price'))
             tech = int(self.request.get('tech'))
             culture = int(self.request.get('culture'))
             games = int(self.request.get('games'))
             sports = int(self.request.get('sports'))
             clothing = int(self.request.get('clothing'))
 
-            if any((not x for x in (gift, price, tech, culture, games, sports, clothing))):
+            if not gift or any((not 1 <= x <= 5 for x in (tech, culture, games, sports, clothing))) or price <= 0:
                 raise ValueError('Oh no!')
 
-            for gift in gift.split(','):
-                g = GiftData()
-                g.gift = gift.strip()
-                g.price = price
-                g.tech = tech
-                g.culture = culture
-                g.games = games
-                g.sports = sports
-                g.clothing = clothing
-                g.put()
+            g = GiftData()
+            g.gift = gift.strip()
+            g.price = price
+            g.tech = tech
+            g.culture = culture
+            g.games = games
+            g.sports = sports
+            g.clothing = clothing
+            g.put()
 
-        except ValueError, Exception:
-            # erreur une des valeurs entières ne l'était pas/ou pas d'idée de cadeau
-            pass
+        except ValueError as e:
+            return self.redirect('/train?error=true')
 
         self.redirect('/thanks')
 

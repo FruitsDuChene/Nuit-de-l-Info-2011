@@ -1,0 +1,55 @@
+<fieldset>
+    {% if show_gift is defined %}
+    <div class="clearfix">
+        <label for="gift">Nom du cadeau</label>
+        <div class="input">
+            <input type="text" name="gift" id="gift" value="">
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="clearfix">
+        <label for="price">Prix</label>
+        <div class="input">
+            <div class="input-append">
+                <input type="text" name="price" id="price" value="15">
+                <span class="add-on">€</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clearfix">
+        <label for="tech">Technologie (ordinateur, téléphone...)</label>
+        <div class="rater"></div>
+        <input type="text" readonly value="1" name="tech" id="tech">
+    </div>
+
+    <div class="clearfix">
+        <label for="culture">Culture (dvd, livres, musique)</label>
+        <div class="rater"></div>
+        <input type="text" readonly value="1" name="culture" id="culture">
+    </div>
+
+    <div class="clearfix">
+        <label for="games">Jeux (de société, vidéo...)</label>
+        <div class="rater"></div>
+        <input type="text" readonly value="1" name="games" id="games">
+    </div>
+
+    <div class="clearfix">
+        <label for="sports">Sports</label>
+        <div class="rater"></div>
+        <input type="text" readonly value="1" name="sports" id="sports">
+    </div>
+
+    <div class="clearfix">
+        <label for="clothing">Mode (vêtements, bijoux...)</label>
+        <div class="rater"></div>
+        <input type="text" readonly value="1" name="clothing" id="clothing">
+    </div>
+</fieldset>
+<div class="actions">
+    <input type="submit" class="btn primary" value="Envoyer">
+    <input type="reset" class="btn" value="Remettre à zéro">
+</div>

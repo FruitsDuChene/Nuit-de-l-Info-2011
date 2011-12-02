@@ -1,63 +1,25 @@
 {% extends "tpl/main.html" %}
 
 {% block title %}
-Olol
+Entrainer le système.
 {% endblock%}
 
-{% block body %}
-Blah blah
-<form action="/train" method="post">
-    <label for="gift">Nom du cadeau, (séparer plusieurs cadeau par une virgule)</label>
-    <input type="text" name="gift" id="gift" value=""><br>
+{% block pagetitle %}
+Entrainement
+{% endblock %}
 
-    <label for="price">Prix</label>
-    <input type="text" name="price" id="price"><br>
+{% block content %}
+{% if error %}
+<div class="alert-message error fade in" data-alert="alert">
+    <a class="close" href="#">&times;</a>
+    <p><strong>Erreur!</strong> Il semblerait que vous ayez fait une erreur en remplissant le formulaire.
+</div>
+{% endif %}
 
-    <label for="tech">Technologie (ordinateur, téléphone)</label>
-    <select name="tech" id="tech">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
-
-    <label for="culture">Culture (dvd, livres)</label>
-    <select name="culture" id="culture">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
-
-    <label for="games">Jeux (de société, vidéo...)</label>
-    <select name="games" id="games">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
-
-    <label for="sports">Sports</label>
-    <select name="sports" id="sports">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
-
-    <label for="clothing">Mode (vêtements, bijoux...)</label>
-    <select name="clothing" id="clothing">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-    </select><br>
-
-    <input type="submit">
+<p>Pour nous aider, c'est très simple, il vous suffit d'ajouter une idée de cadeau, et de la classer dans certaines catégories.
+<p>Par exemple un "lecteur MP3", peut être classé dans technologie 3, et culture 3 en laissant les autres catégories à 1.
+<form action="/train" method="post" class="form-stacked">
+    {% set show_gift = True %}
+    {% include "tpl/form.html" %}
 </form>
 {% endblock %}
