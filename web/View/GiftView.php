@@ -40,7 +40,7 @@ END;
 		</div>
 	</div>
 	<div class="clearfix">
-		<label for="input_eve">Évènement</label>
+		<label for="input_eve">Événement</label>
 		<div class="input">
 			<input name="eve" id="input_eve" type="text" />
 		</div>
@@ -64,7 +64,7 @@ END;
 		<tr>
 			<th class="header green">Nom</th>
 			<th class="header orange">Description</th>
-			<th class="header blue">Évènement</th>
+			<th class="header blue">Événement</th>
 		</tr>
 	</thead>
 	<tbody>

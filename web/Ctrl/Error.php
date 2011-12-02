@@ -19,7 +19,7 @@ class Error
 
 		CNavigation::setTitle('Oops');
 		CNavigation::setDescription('Le login ne fonctionne pas');
-		ErrorView::showError(42, "Facebook rend l'utilisation de formulaires différents de leur site impossible. Il est donc impossible d'établir une connexion par ce moyen, avec de beaux lapins. Utilisez le lien en dessous de la page.", "dislike.png");
+		ErrorView::showError(42, "Facebook rend l'utilisation de formulaires différents de leur site impossible. Il est donc impossible d'établir une connexion par ce moyen, avec de beaux lapins. Utilisez le lien au bas de la page.", "dislike.png");
 	}
 }
 

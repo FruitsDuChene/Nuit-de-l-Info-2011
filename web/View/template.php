@@ -60,7 +60,7 @@ if (!defined('NO_HEADER_BAR')) {
 					<li class="dropdown $c_gift">
 						<a href="#" class="dropdown-toggle">Mes cadeaux</a>
 						<ul class="dropdown-menu">
-							<li><a href="$url_gift">Déja eus</a></li>
+							<li><a href="$url_gift">Déjà eus</a></li>
 							<li><a href="$url_wants">Envies</a></li>
 						</ul>
 					</li>

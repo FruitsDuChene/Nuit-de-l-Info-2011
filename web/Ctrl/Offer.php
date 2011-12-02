@@ -9,7 +9,7 @@ class Offer
 
 	public function friend_list() {
 		CNavigation::setTitle("Mes amis");
-		CNavigation::setDescription("Sélectionnez l'amis à qui vous voulez offrir un cadeau");
+		CNavigation::setDescription("Sélectionnez l'ami à qui vous voulez offrir un cadeau");
 
 	$friends = CTools::fb($_SESSION['facebook']->id."/friends");
 	$friends = $friends->data;

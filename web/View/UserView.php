@@ -103,27 +103,27 @@ class UserView
 				<div id="divTodayNotification">
 					<div class="alert-message block-message warning">
 						<h2>Ce qui se passe aujourd'hui :</h2>
-						<p>Les fetes : $fetes_today_string.</p>
+						<p>Les fêtes : $fetes_today_string.</p>
 						
 						<p>Les anniversaires : $birthdays.</p>
 					</div>
 				</div>	
 				<div id="timeLine">
-					<h2>Evenements dans les 7 jours a venir :</h2>
+					<h2>Événements dans les 7 jours a venir :</h2>
 					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/bday.png" alt="birthday logo" width="17px" height="17px"/></span><span class="countDown">dans 3 jours</span><span class="userEventName">Anniversaire de : <a href="#">Toto</a> !</span></div>
-					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/christmas.png" alt="christmas logo" width="17px" height="17px"/></span><span class="countDown">dans 3 jours</span><span class="userEventName">C'est <a href="#">Noel</a> !</span></div>
+					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/christmas.png" alt="christmas logo" width="17px" height="17px"/></span><span class="countDown">dans 3 jours</span><span class="userEventName">C'est <a href="#">Noël</a> !</span></div>
 					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/valentine.png" alt="valentine logo" width="17px" height="17px"/></span><span class="countDown">dans 3 jours</span><span class="userEventName">C'est <a href="#">la Saint Valentin</a> !</span></div>
 					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/wedding.png" alt="wedding logo" width="17px" height="17px"/></span><span class="countDown">dans 3 jours</span><span class="userEventName">C'est le mariage de <a href="#">Toto</a> et <a href="#">Tata</a>!</span></div>
 					$fetes_7_string
 					
-					<h2>Evenements dans les 30 jours a venir :</h2>
+					<h2>Événements dans les 30 jours a venir :</h2>
 					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/bday.png" alt="birthday logo" width="17px" height="17px"/></span><span class="countDown">dans 15 jours</span><span class="userEventName">Anniversaire de : <a href="#">Toto</a> !</span></div>
-					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/christmas.png" alt="christmas logo" width="17px" height="17px"/></span><span class="countDown">dans 18 jours</span><span class="userEventName">C'est <a href="#">Noel</a> !</span></div>
+					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/christmas.png" alt="christmas logo" width="17px" height="17px"/></span><span class="countDown">dans 18 jours</span><span class="userEventName">C'est <a href="#">Noël</a> !</span></div>
 					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/valentine.png" alt="valentine logo" width="17px" height="17px"/></span><span class="countDown">dans 19 jours</span><span class="userEventName">C'est <a href="#">la Saint Valentin</a> !</span></div>
 					<div class="eventTimeline"> <span class="imgEvent"><img src="$ROOT_PATH/Img/wedding.png" alt="wedding logo" width="17px" height="17px"/></span><span class="countDown">dans 20 jours</span><span class="userEventName">C'est le mariage de <a href="#">Toto</a> et <a href="#">Tata</a>!</span></div>
 					$fetes_30_string
 					
-					<h2><a href="#">Voire tout les evenements</a></h2>
+					<h2><a href="#">Voir tous les événements</a></h2>
 				</div>
 				<div id="footer">
 					<p>toto</p>
@@ -132,7 +132,7 @@ class UserView
 		
 			
 			<div class="span3" id="right">
-				<h2>Les suggestions recentes</h2>
+				<h2>Les suggestions récentes</h2>
 				<ul>
 					<li>Suggestion : <a href="#">Chevalier de la mort qui tue</a></li>
 					<li>Suggestion : <a href="#">Chevalier de la mort qui tue</a></li>
