@@ -23,7 +23,17 @@ $('form').submit(function() {
         'id': 'giftideas',
         'input': {'csvInstance': [price, tech, culture, games, sports, clothing]}
     }).execute(function(reply) {
-        console.log(reply);
+        var html = '',
+            out = reply['outputMulti'];
+
+        for(var i = 0, l = out.length; i < l; ++i) {
+            html += '<tr>';
+            html += '<td>' + out[i]['label'] + '</td>';
+            html += '<td>' + Math.round(100 * out[i]['score']) + '</td>';
+            html += '</tr>';
+        }
+
+        $('#result tbody').html(html);
     });
 
     return false;
